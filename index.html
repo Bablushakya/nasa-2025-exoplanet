@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover Exoplanets with AI - NASA Space Apps Challenge 2025">
+    <meta name="keywords" content="exoplanets, AI, NASA, space, astronomy, detection">
+    <title>ExoPlanet AI - Discover Exoplanets with AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-globe nav-logo-icon"></i>
+                <span class="nav-logo-text">ExoPlanet AI</span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="explorer.html" class="nav-link">Explorer</a>
+                </li>
+                <li class="nav-item">
+                    <a href="learn.html" class="nav-link">Learn</a>
+                </li>
+                <li class="nav-item">
+                    <a href="model.html" class="nav-link">Model</a>
+                </li>
+                <li class="nav-item">
+                    <a href="api.html" class="nav-link">API</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="particles-container" id="particles-js"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Discover Exoplanets with AI</h1>
+                    <p class="hero-subtitle">NASA Space Apps Challenge 2025</p>
+                    <div class="hero-buttons">
+                        <a href="dashboard.html" class="btn btn-primary">Start Detection</a>
+                        <a href="learn.html" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-planet"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="statistics" id="statistics">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stat-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="stat-number" data-target="15847">0</div>
+                        <div class="stat-label">Total Planets Analyzed</div>
+                    </div>
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="stat-number" data-target="94.7">0</div>
+                        <div class="stat-label">Accuracy Rate (%)</div>
+                    </div>
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-number" data-target="5432">0</div>
+                        <div class="stat-label">Confirmed Exoplanets</div>
+                    </div>
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" data-target="2891">0</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">Powerful Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="feature-title">AI-Powered Detection</h3>
+                        <p class="feature-description">Advanced machine learning algorithms analyze transit data to identify potential exoplanets with high accuracy.</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Real-time Analysis</h3>
+                        <p class="feature-description">Get instant results and confidence scores for your exoplanet detection analysis with interactive visualizations.</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="feature-title">Interactive Visualization</h3>
+                        <p class="feature-description">Explore light curves, transit depths, and probability distributions through beautiful, interactive charts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <div class="timeline">
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h3>Upload/Enter Data</h3>
+                            <p>Input your exoplanet data manually, upload CSV/JSON files, or use our sample datasets to get started.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h3>AI Analysis</h3>
+                            <p>Our advanced AI model processes the data, analyzing orbital patterns and transit characteristics.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h3>View Results</h3>
+                            <p>Get detailed results with confidence scores, visualizations, and comprehensive analysis reports.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ExoPlanet AI</h3>
+                    <p>Advancing exoplanet discovery through artificial intelligence and machine learning.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="explorer.html">Explorer</a></li>
+                        <li><a href="learn.html">Learn</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="model.html">Model Info</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="#" target="_blank">NASA Exoplanet Archive</a></li>
+                        <li><a href="#" target="_blank">Space Apps Challenge</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>NASA Partnership</h4>
+                    <img src="assets/images/icons/nasa-logo.png" alt="NASA Logo" class="nasa-logo">
+                    <p>Built for NASA Space Apps Challenge 2025</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ExoPlanet AI. Built with ❤️ for space exploration.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-text">Analyzing...</div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/status.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

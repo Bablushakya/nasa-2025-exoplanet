@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend-Backend Integration Test</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        .test-section {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            border: 1px solid #334155;
+        }
+        .test-button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background: #5b5bd6;
+        }
+        .test-button:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+        }
+        .result {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            border-left: 4px solid #6366f1;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success { border-left-color: #10b981; }
+        .error { border-left-color: #ef4444; }
+        .form-group {
+            margin: 12px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            background: #334155;
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status.online { background: #10b981; color: white; }
+        .status.offline { background: #ef4444; color: white; }
+        .status.testing { background: #f59e0b; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🚀 ExoPlanet AI - Frontend-Backend Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>🔗 Connection Status</h2>
+        <p>Backend URL: <code>http://localhost:8000</code></p>
+        <p>Status: <span id="connection-status" class="status offline">Checking...</span></p>
+        <button class="test-button" onclick="checkConnection()">Check Connection</button>
+        <div id="connection-result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🏥 Health Check</h2>
+        <p>Test the basic health endpoint</p>
+        <button class="test-button" onclick="testHealthCheck()">Test Health Check</button>
+        <div id="health-result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔮 Prediction Test</h2>
+        <p>Test the exoplanet prediction endpoint with sample data</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+                <label>Orbital Period (days)</label>
+                <input type="number" id="orbital-period" value="3.52" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Transit Duration (hours)</label>
+                <input type="number" id="transit-duration" value="2.8" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Planetary Radius (Earth radii)</label>
+                <input type="number" id="planetary-radius" value="1.2" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Transit Depth (%)</label>
+                <input type="number" id="transit-depth" value="0.15" step="0.001">
+            </div>
+            <div class="form-group">
+                <label>Stellar Magnitude</label>
+                <input type="number" id="stellar-magnitude" value="12.5" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Equilibrium Temperature (K)</label>
+                <input type="number" id="equilibrium-temperature" value="1200" step="1">
+            </div>
+        </div>
+        
+        <button class="test-button" onclick="testPrediction()">Test Prediction</button>
+        <button class="test-button" onclick="loadSampleData()">Load Sample Data</button>
+        <div id="prediction-result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Data Endpoints</h2>
+        <p>Test various data retrieval endpoints</p>
+        <button class="test-button" onclick="testExoplanets()">Get Exoplanets</button>
+        <button class="test-button" onclick="testStatistics()">Get Statistics</button>
+        <button class="test-button" onclick="testModels()">Get Models</button>
+        <div id="data-result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔐 Authentication Test</h2>
+        <p>Test authentication endpoints (optional)</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="test-email" value="test@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="test-password" value="testpassword">
+            </div>
+        </div>
+        <button class="test-button" onclick="testLogin()">Test Login</button>
+        <button class="test-button" onclick="testRegister()">Test Register</button>
+        <div id="auth-result" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Include our API service -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+
+    <script>
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkConnection();
+        });
+
+        async function checkConnection() {
+            const statusEl = document.getElementById('connection-status');
+            const resultEl = document.getElementById('connection-result');
+            
+            statusEl.textContent = 'Testing...';
+            statusEl.className = 'status testing';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/health');
+                if (response.ok) {
+                    statusEl.textContent = 'Online';
+                    statusEl.className = 'status online';
+                    resultEl.textContent = '✅ Backend is running and accessible';
+                    resultEl.className = 'result success';
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                statusEl.textContent = 'Offline';
+                statusEl.className = 'status offline';
+                resultEl.textContent = `❌ Connection failed: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+            
+            resultEl.style.display = 'block';
+        }
+
+        async function testHealthCheck() {
+            const resultEl = document.getElementById('health-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Testing health check...';
+            resultEl.className = 'result';
+            
+            try {
+                const response = await apiService.healthCheck();
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+
+        async function testPrediction() {
+            const resultEl = document.getElementById('prediction-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Making prediction...';
+            resultEl.className = 'result';
+            
+            try {
+                const data = {
+                    orbital_period: parseFloat(document.getElementById('orbital-period').value),
+                    transit_duration: parseFloat(document.getElementById('transit-duration').value),
+                    planetary_radius: parseFloat(document.getElementById('planetary-radius').value),
+                    transit_depth: parseFloat(document.getElementById('transit-depth').value),
+                    stellar_magnitude: parseFloat(document.getElementById('stellar-magnitude').value),
+                    equilibrium_temperature: parseFloat(document.getElementById('equilibrium-temperature').value)
+                };
+
+                const response = await apiService.predictExoplanet(data);
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+
+        function loadSampleData() {
+            // Load some realistic sample data
+            document.getElementById('orbital-period').value = '3.52';
+            document.getElementById('transit-duration').value = '2.8';
+            document.getElementById('planetary-radius').value = '1.2';
+            document.getElementById('transit-depth').value = '0.15';
+            document.getElementById('stellar-magnitude').value = '12.5';
+            document.getElementById('equilibrium-temperature').value = '1200';
+        }
+
+        async function testExoplanets() {
+            const resultEl = document.getElementById('data-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Fetching exoplanets...';
+            resultEl.className = 'result';
+            
+            try {
+                const response = await apiService.getExoplanets({ limit: 5 });
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+
+        async function testStatistics() {
+            const resultEl = document.getElementById('data-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Fetching statistics...';
+            resultEl.className = 'result';
+            
+            try {
+                const response = await apiService.getStatistics();
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+
+        async function testModels() {
+            const resultEl = document.getElementById('data-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Fetching models...';
+            resultEl.className = 'result';
+            
+            try {
+                const response = await apiService.getModels();
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+
+        async function testLogin() {
+            const resultEl = document.getElementById('auth-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Testing login...';
+            resultEl.className = 'result';
+            
+            try {
+                const credentials = {
+                    email: document.getElementById('test-email').value,
+                    password: document.getElementById('test-password').value
+                };
+                
+                const response = await apiService.login(credentials);
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+
+        async function testRegister() {
+            const resultEl = document.getElementById('auth-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Testing registration...';
+            resultEl.className = 'result';
+            
+            try {
+                const userData = {
+                    email: document.getElementById('test-email').value,
+                    password: document.getElementById('test-password').value,
+                    full_name: 'Test User'
+                };
+                
+                const response = await apiService.register(userData);
+                resultEl.textContent = JSON.stringify(response, null, 2);
+                resultEl.className = 'result success';
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+                resultEl.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

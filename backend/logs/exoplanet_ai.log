@@ -1,0 +1,3 @@
+{"asctime": "2025-09-29 11:00:18,141", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-09-29 11:00:18,159", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-09-29 11:00:18,183", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}

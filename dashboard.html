@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Exoplanet Detection Dashboard - Analyze and detect exoplanets with AI">
+    <title>Dashboard - ExoPlanet AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-globe nav-logo-icon"></i>
+                <span class="nav-logo-text">ExoPlanet AI</span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="explorer.html" class="nav-link">Explorer</a>
+                </li>
+                <li class="nav-item">
+                    <a href="learn.html" class="nav-link">Learn</a>
+                </li>
+                <li class="nav-item">
+                    <a href="model.html" class="nav-link">Model</a>
+                </li>
+                <li class="nav-item">
+                    <a href="api.html" class="nav-link">API</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <!-- Left Sidebar -->
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-section">
+                    <h3>Input Method</h3>
+                    <div class="input-tabs">
+                        <button class="tab-btn active" data-tab="manual">Manual Entry</button>
+                        <button class="tab-btn" data-tab="upload">File Upload</button>
+                        <button class="tab-btn" data-tab="sample">Sample Data</button>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>Quick Stats</h3>
+                    <div class="quick-stats">
+                        <div class="quick-stat">
+                            <span class="stat-value">94.7%</span>
+                            <span class="stat-label">Model Accuracy</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-value">1,247</span>
+                            <span class="stat-label">Predictions Today</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-value">0.3s</span>
+                            <span class="stat-label">Avg Processing Time</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <!-- Input Section -->
+                <section class="input-section">
+                    <h2>Exoplanet Detection Analysis</h2>
+                    
+                    <!-- Manual Entry Tab -->
+                    <div class="tab-content active" id="manual-tab">
+                        <form class="detection-form" id="detection-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="orbital-period">Orbital Period (days)</label>
+                                    <input type="number" id="orbital-period" name="orbitalPeriod" step="0.001" min="0" required>
+                                    <span class="form-help">Time for one complete orbit around the host star</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="transit-duration">Transit Duration (hours)</label>
+                                    <input type="number" id="transit-duration" name="transitDuration" step="0.01" min="0" required>
+                                    <span class="form-help">Duration of the planet crossing the star</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="planetary-radius">Planetary Radius (Earth radii)</label>
+                                    <input type="number" id="planetary-radius" name="planetaryRadius" step="0.01" min="0" required>
+                                    <span class="form-help">Planet size relative to Earth</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="transit-depth">Transit Depth (%)</label>
+                                    <input type="number" id="transit-depth" name="transitDepth" step="0.001" min="0" max="100" required>
+                                    <span class="form-help">Percentage decrease in star brightness</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="stellar-magnitude">Stellar Magnitude</label>
+                                    <input type="number" id="stellar-magnitude" name="stellarMagnitude" step="0.01" required>
+                                    <span class="form-help">Brightness of the host star</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="equilibrium-temperature">Equilibrium Temperature (K)</label>
+                                    <input type="number" id="equilibrium-temperature" name="equilibriumTemperature" step="1" min="0" required>
+                                    <span class="form-help">Estimated planet temperature in Kelvin</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-analyze">
+                                <i class="fas fa-search"></i>
+                                Analyze Data
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- File Upload Tab -->
+                    <div class="tab-content" id="upload-tab">
+                        <div class="upload-zone" id="upload-zone">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <h3>Drop your files here</h3>
+                                <p>Supports CSV and JSON formats</p>
+                                <button type="button" class="btn btn-secondary" id="file-select-btn">Select Files</button>
+                                <input type="file" id="file-input" accept=".csv,.json" multiple hidden>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sample Data Tab -->
+                    <div class="tab-content" id="sample-tab">
+                        <div class="sample-data-section">
+                            <h3>Choose Sample Dataset</h3>
+                            <div class="sample-options">
+                                <div class="sample-card" data-sample="kepler">
+                                    <h4>Kepler Mission Data</h4>
+                                    <p>High-quality transit data from the Kepler Space Telescope</p>
+                                    <button class="btn btn-outline">Load Dataset</button>
+                                </div>
+                                <div class="sample-card" data-sample="tess">
+                                    <h4>TESS Survey Data</h4>
+                                    <p>Recent discoveries from the Transiting Exoplanet Survey Satellite</p>
+                                    <button class="btn btn-outline">Load Dataset</button>
+                                </div>
+                                <div class="sample-card" data-sample="k2">
+                                    <h4>K2 Extended Mission</h4>
+                                    <p>Extended Kepler mission observations</p>
+                                    <button class="btn btn-outline">Load Dataset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Results Section -->
+                <section class="results-section" id="results-section" style="display: none;">
+                    <h2>Analysis Results</h2>
+                    
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-header">
+                                <h3>Classification</h3>
+                                <div class="result-badge" id="result-badge">Analyzing...</div>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="confidence-label">Confidence Score</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="confidence-progress"></div>
+                                </div>
+                                <div class="confidence-value" id="confidence-value">0%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-card">
+                            <h3>Detailed Metrics</h3>
+                            <div class="metrics-table" id="metrics-table">
+                                <!-- Metrics will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="probability-card">
+                            <h3>Probability Distribution</h3>
+                            <canvas id="probability-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="visualization-section">
+                        <div class="chart-container">
+                            <h3>Light Curve Simulation</h3>
+                            <canvas id="light-curve-chart"></canvas>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3>Transit Depth Analysis</h3>
+                            <canvas id="transit-chart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Sidebar -->
+            <aside class="dashboard-right-sidebar">
+                <div class="sidebar-section">
+                    <h3>Recent Predictions</h3>
+                    <div class="recent-predictions" id="recent-predictions">
+                        <!-- Recent predictions will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>Model Performance</h3>
+                    <div class="performance-stats">
+                        <div class="perf-stat">
+                            <span class="perf-label">Precision</span>
+                            <span class="perf-value">92.3%</span>
+                        </div>
+                        <div class="perf-stat">
+                            <span class="perf-label">Recall</span>
+                            <span class="perf-value">89.7%</span>
+                        </div>
+                        <div class="perf-stat">
+                            <span class="perf-label">F1-Score</span>
+                            <span class="perf-value">91.0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>Quick Tips</h3>
+                    <div class="tips-card">
+                        <div class="tip-item">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>Higher transit depth usually indicates larger planets</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Shorter orbital periods suggest planets closer to their stars</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Check the light curve for periodic dips indicating transits</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-text">Analyzing exoplanet data...</div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/status.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>""

@@ -1,0 +1,17 @@
+{
+  "version": "2.1.0",
+  "feature_names": [
+    "orbital_period",
+    "transit_duration",
+    "planetary_radius",
+    "transit_depth",
+    "stellar_magnitude",
+    "equilibrium_temperature"
+  ],
+  "classes": [
+    "Confirmed",
+    "Candidate",
+    "False Positive"
+  ],
+  "created_at": 1759122878.1800253
+}
