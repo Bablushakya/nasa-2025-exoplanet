@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend-Backend Connection Test</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status.success {
+            background: #10b981;
+        }
+
+        .status.error {
+            background: #ef4444;
+        }
+
+        .status.loading {
+            background: #f59e0b;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🌌 ExoPlanet AI - Frontend-Backend Connection Test</h1>
+
+        <div class="test-section">
+            <h3>🔧 Backend Health Check <span id="health-status" class="status loading">Testing...</span></h3>
+            <button onclick="testHealth()">Test Health Endpoint</button>
+            <div id="health-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 API Status Check <span id="api-status" class="status loading">Testing...</span></h3>
+            <button onclick="testAPIStatus()">Test API Status</button>
+            <div id="api-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🪐 Exoplanets Data <span id="exoplanets-status" class="status loading">Testing...</span></h3>
+            <button onclick="testExoplanets()">Test Exoplanets Endpoint</button>
+            <div id="exoplanets-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🤖 Predictions API <span id="predictions-status" class="status loading">Testing...</span></h3>
+            <button onclick="testPredictions()">Test Predictions Endpoint</button>
+            <div id="predictions-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔇 Audio System <span class="status error">Disabled</span></h3>
+            <p>Audio features have been disabled in this version.</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 NASA API Integration <span id="nasa-status" class="status loading">Testing...</span></h3>
+            <button onclick="testNASA()">Test NASA API</button>
+            <div id="nasa-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Backend URL
+        const BACKEND_URL = 'http://localhost:8000';
+
+        // Test Health Endpoint
+        async function testHealth() {
+            const statusEl = document.getElementById('health-status');
+            const resultEl = document.getElementById('health-result');
+
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Testing...';
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/health`);
+                const data = await response.json();
+
+                statusEl.className = 'status success';
+                statusEl.textContent = 'Success';
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Failed';
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Test API Status
+        async function testAPIStatus() {
+            const statusEl = document.getElementById('api-status');
+            const resultEl = document.getElementById('api-result');
+
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Testing...';
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/status`);
+                const data = await response.json();
+
+                statusEl.className = 'status success';
+                statusEl.textContent = 'Success';
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Failed';
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Test Exoplanets Endpoint
+        async function testExoplanets() {
+            const statusEl = document.getElementById('exoplanets-status');
+            const resultEl = document.getElementById('exoplanets-result');
+
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Testing...';
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/exoplanets?limit=3`);
+                const data = await response.json();
+
+                statusEl.className = 'status success';
+                statusEl.textContent = 'Success';
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Failed';
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Test Predictions Endpoint
+        async function testPredictions() {
+            const statusEl = document.getElementById('predictions-status');
+            const resultEl = document.getElementById('predictions-result');
+
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Testing...';
+
+            try {
+                const testData = {
+                    orbital_period: 365.25,
+                    planetary_radius: 1.0,
+                    transit_depth: 0.01,
+                    stellar_magnitude: 12.5
+                };
+
+                const response = await fetch(`${BACKEND_URL}/api/v1/predictions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                const data = await response.json();
+
+                statusEl.className = 'status success';
+                statusEl.textContent = 'Success';
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Failed';
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Test Audio System
+        function testAudio() {
+            const statusEl = document.getElementById('audio-status');
+            const resultEl = document.getElementById('audio-result');
+
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Testing...';
+
+            try {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance('Audio system test successful!');
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1.0;
+                    utterance.volume = 0.8;
+
+                    speechSynthesis.speak(utterance);
+
+                    statusEl.className = 'status success';
+                    statusEl.textContent = 'Success';
+                    resultEl.textContent = 'Audio system is working! You should hear a test message.';
+                } else {
+                    throw new Error('Speech synthesis not supported');
+                }
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Failed';
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Play Welcome Message
+        function playWelcome() {
+            const welcomeMessage = `Welcome to ExoPlanet AI Enhanced! This platform combines NASA's astronomical data with Google Gemini's artificial intelligence to bring you comprehensive exoplanet analysis. Ready to explore the cosmos!`;
+
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(welcomeMessage);
+                utterance.rate = 0.85;
+                utterance.pitch = 1.0;
+                utterance.volume = 0.8;
+
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Test NASA API
+        async function testNASA() {
+            const statusEl = document.getElementById('nasa-status');
+            const resultEl = document.getElementById('nasa-result');
+
+            statusEl.className = 'status loading';
+            statusEl.textContent = 'Testing...';
+
+            try {
+                // Test NASA APOD API
+                const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=OyiVQJCms9JiO36lyV9iGD56Gfhcx3ZX7oQiEXyy');
+                const data = await response.json();
+
+                statusEl.className = 'status success';
+                statusEl.textContent = 'Success';
+                resultEl.textContent = `NASA APOD: ${data.title}\nDate: ${data.date}\nExplanation: ${data.explanation.substring(0, 200)}...`;
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Failed';
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testHealth();
+                setTimeout(() => testAPIStatus(), 500);
+                setTimeout(() => testExoplanets(), 1000);
+                // Audio test disabled
+                setTimeout(() => testNASA(), 2000);
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

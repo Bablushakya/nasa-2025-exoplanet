@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/enhanced-features.css">
     
     <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -299,11 +301,83 @@
     <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/nasa-api.js"></script>
+    <script src="js/gemini-api.js"></script>
+    <script src="js/enhanced-integration.js"></script>
     <script src="js/status.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/space-animations.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
     <script src="js/main.js"></script>
+    
+    <script>
+        // Initialize enhanced dashboard
+        document.addEventListener('DOMContentLoaded', async () => {
+            await enhancedIntegration.initialize();
+            
+            // Load real-time NASA data
+            const dashboardResult = await enhancedIntegration.getRealTimeSpaceDashboard();
+            if (dashboardResult.success) {
+                updateDashboardWithRealData(dashboardResult.dashboard);
+            }
+        });
+        
+        function updateDashboardWithRealData(dashboardData) {
+            // Update APOD section
+            if (dashboardData.data.apod) {
+                updateAPODSection(dashboardData.data.apod);
+            }
+            
+            // Update exoplanet statistics
+            if (dashboardData.data.exoplanetStats) {
+                updateExoplanetStats(dashboardData.data.exoplanetStats);
+            }
+            
+            // Add AI insights if available
+            if (dashboardData.insights) {
+                addAIInsightsSection(dashboardData.insights);
+            }
+        }
+        
+        function updateAPODSection(apodData) {
+            const apodContainer = document.querySelector('.apod-container') || createAPODContainer();
+            apodContainer.innerHTML = `
+                <div class="apod-card">
+                    <h3>NASA Astronomy Picture of the Day</h3>
+                    <img src="${apodData.url}" alt="${apodData.title}" class="apod-image">
+                    <h4>${apodData.title}</h4>
+                    <p class="apod-explanation">${apodData.explanation}</p>
+                    <p class="apod-date">Date: ${apodData.date}</p>
+                </div>
+            `;
+            
+            // Audio controls disabled
+        }
+        
+        function createAPODContainer() {
+            const container = document.createElement('div');
+            container.className = 'apod-container';
+            document.querySelector('.dashboard-grid').appendChild(container);
+            return container;
+        }
+        
+        function addAIInsightsSection(insights) {
+            const insightsContainer = document.createElement('div');
+            insightsContainer.className = 'ai-insights-section';
+            insightsContainer.innerHTML = `
+                <div class="insights-card">
+                    <h3><i class="fas fa-brain"></i> AI Insights</h3>
+                    <div class="insights-content">${insights.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+            
+            document.querySelector('.dashboard-grid').appendChild(insightsContainer);
+            // Audio controls disabled
+        }
+    </script>
 </body>
 </html>""

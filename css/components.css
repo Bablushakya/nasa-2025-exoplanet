@@ -17,7 +17,8 @@
   transition: all var(--transition-fast);
   position: relative;
   overflow: hidden;
-  min-height: 44px; /* Accessibility: minimum touch target */
+  min-height: 44px;
+  /* Accessibility: minimum touch target */
 }
 
 .btn::before {
@@ -163,10 +164,21 @@
   background: var(--primary-color);
 }
 
-.toast.success::before { background: var(--success-color); }
-.toast.error::before { background: var(--error-color); }
-.toast.warning::before { background: var(--warning-color); }
-.toast.info::before { background: var(--info-color); }
+.toast.success::before {
+  background: var(--success-color);
+}
+
+.toast.error::before {
+  background: var(--error-color);
+}
+
+.toast.warning::before {
+  background: var(--warning-color);
+}
+
+.toast.info::before {
+  background: var(--info-color);
+}
 
 .toast-content {
   display: flex;
@@ -180,10 +192,21 @@
   margin-top: 2px;
 }
 
-.toast.success .toast-icon { color: var(--success-color); }
-.toast.error .toast-icon { color: var(--error-color); }
-.toast.warning .toast-icon { color: var(--warning-color); }
-.toast.info .toast-icon { color: var(--info-color); }
+.toast.success .toast-icon {
+  color: var(--success-color);
+}
+
+.toast.error .toast-icon {
+  color: var(--error-color);
+}
+
+.toast.warning .toast-icon {
+  color: var(--warning-color);
+}
+
+.toast.info .toast-icon {
+  color: var(--info-color);
+}
 
 .toast-message {
   flex: 1;
@@ -383,8 +406,13 @@
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Card Components */
@@ -510,8 +538,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Accordion Component */
@@ -557,7 +592,8 @@
 }
 
 .accordion-item.active .accordion-content {
-  max-height: 1000px; /* Adjust based on content */
+  max-height: 1000px;
+  /* Adjust based on content */
 }
 
 .accordion-body {
@@ -772,6 +808,7 @@
   border-color: var(--primary-color);
   color: var(--text-primary);
 }
+
 /* Das
 hboard Specific Styles */
 .dashboard-main {
@@ -1226,12 +1263,12 @@ hboard Specific Styles */
   transition: all var(--transition-fast);
 }
 
-.filter-checkbox input[type="checkbox"]:checked + .checkmark {
+.filter-checkbox input[type="checkbox"]:checked+.checkmark {
   background: var(--primary-color);
   border-color: var(--primary-color);
 }
 
-.filter-checkbox input[type="checkbox"]:checked + .checkmark::after {
+.filter-checkbox input[type="checkbox"]:checked+.checkmark::after {
   content: '✓';
   position: absolute;
   top: -2px;
@@ -1425,10 +1462,21 @@ hboard Specific Styles */
   color: var(--primary-color);
 }
 
-.planet-icon.rocky { color: #8b5a2b; }
-.planet-icon.gas-giant { color: #f59e0b; }
-.planet-icon.super-earth { color: #10b981; }
-.planet-icon.hot-jupiter { color: #ef4444; }
+.planet-icon.rocky {
+  color: #8b5a2b;
+}
+
+.planet-icon.gas-giant {
+  color: #f59e0b;
+}
+
+.planet-icon.super-earth {
+  color: #10b981;
+}
+
+.planet-icon.hot-jupiter {
+  color: #ef4444;
+}
 
 .habitable-icon {
   position: absolute;

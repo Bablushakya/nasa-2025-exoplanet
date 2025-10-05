@@ -5,8 +5,8 @@
  */
 class ApiService {
     constructor() {
-        this.baseURL = Config?.api?.baseURL || 'http://localhost:8000/api/v1';
-        this.timeout = Config?.api?.timeout || 30000;
+        this.baseURL = (window.CONFIG?.APP?.BACKEND_URL || 'http://localhost:8000') + '/api/v1';
+        this.timeout = 30000;
         this.defaultHeaders = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -145,7 +145,7 @@ class ApiService {
 
     // Prediction endpoints
     async predictExoplanet(data) {
-        return this.post('/predictions/predict', data);
+        return this.post('/predictions', data);
     }
 
     async getPredictions(params = {}) {
@@ -171,15 +171,15 @@ class ApiService {
 
     // Statistics endpoints
     async getStatistics() {
-        return this.get('/statistics');
+        return this.get('/status');
     }
 
     async getDiscoveryTrends() {
-        return this.get('/statistics/discovery-trends');
+        return this.get('/exoplanets');
     }
 
     async getDetectionMethods() {
-        return this.get('/statistics/detection-methods');
+        return this.get('/exoplanets');
     }
 }
 

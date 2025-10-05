@@ -31,15 +31,20 @@ class Settings(BaseSettings):
     SQLITE_URL: str = "sqlite+aiosqlite:///./exoplanet_ai.db"
     
     # CORS
-    ALLOWED_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:8080",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:8080",
-        "http://localhost:5500",  # Live Server default
-        "http://127.0.0.1:5500"
-    ]
-    ALLOWED_HOSTS: List[str] = ["*"]
+    ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:8080,http://127.0.0.1:3000,http://127.0.0.1:8080,http://localhost:5500,http://127.0.0.1:5500"
+    ALLOWED_HOSTS: str = "*"
+    
+    @property
+    def allowed_origins_list(self) -> List[str]:
+        """Convert comma-separated origins to list"""
+        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
+    
+    @property 
+    def allowed_hosts_list(self) -> List[str]:
+        """Convert comma-separated hosts to list"""
+        if self.ALLOWED_HOSTS == "*":
+            return ["*"]
+        return [host.strip() for host in self.ALLOWED_HOSTS.split(",")]
     
     # Redis (optional)
     REDIS_URL: Optional[str] = None
@@ -54,7 +59,12 @@ class Settings(BaseSettings):
     
     # File upload
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
-    ALLOWED_FILE_TYPES: List[str] = [".csv", ".json"]
+    ALLOWED_FILE_TYPES: str = ".csv,.json"
+    
+    @property
+    def allowed_file_types_list(self) -> List[str]:
+        """Convert comma-separated file types to list"""
+        return [ft.strip() for ft in self.ALLOWED_FILE_TYPES.split(",")]
     
     # Logging
     LOG_LEVEL: str = "INFO"

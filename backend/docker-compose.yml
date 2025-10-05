@@ -1,50 +1,83 @@
 version: '3.8'
 
 services:
-  api:
-    build: .
+  # ExoPlanet AI Enhanced Backend
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: exoplanet-ai-backend
     ports:
       - "8000:8000"
     environment:
-      - DEBUG=True
-      - DATABASE_URL=postgresql+asyncpg://exoplanet:password@db:5432/exoplanet_ai
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
+      - DEBUG=False
+      - ENVIRONMENT=production
+      - DATABASE_URL=sqlite+aiosqlite:///./data/exoplanet_ai.db
+      - NASA_API_KEY=${NASA_API_KEY:-OyiVQJCms9JiO36lyV9iGD56Gfhcx3ZX7oQiEXyy}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyCegaaD-LnnpopMb56d9ZqUl9QNRyccnTY}
     volumes:
       - ./logs:/app/logs
       - ./models:/app/models
+      - ./data:/app/data
+      - backend_cache:/app/cache
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - exoplanet-network
 
-  db:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=exoplanet_ai
-      - POSTGRES_USER=exoplanet
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-
-  nginx:
+  # Frontend (Nginx serving static files)
+  frontend:
     image: nginx:alpine
+    container_name: exoplanet-ai-frontend
     ports:
-      - "80:80"
-      - "443:443"
+      - "3000:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ../:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
-      - api
+      - backend
     restart: unless-stopped
+    networks:
+      - exoplanet-network
+
+  # Optional: Redis for caching (uncomment if needed)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: exoplanet-ai-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
+  #   networks:
+  #     - exoplanet-network
+
+  # Optional: PostgreSQL for production (uncomment if needed)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: exoplanet-ai-postgres
+  #   environment:
+  #     POSTGRES_DB: exoplanet_ai
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secure_password_123}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+  #   networks:
+  #     - exoplanet-network
 
 volumes:
-  postgres_data:
+  backend_cache:
+  # redis_data:
+  # postgres_data:
+
+networks:
+  exoplanet-network:
+    driver: bridge

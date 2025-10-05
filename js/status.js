@@ -172,7 +172,7 @@ class StatusIndicator {
 
     try {
       const startTime = Date.now();
-      const response = await fetch('http://localhost:8000/api/v1/health', {
+      const response = await fetch('http://localhost:8000/health', {
         method: 'GET',
         timeout: 5000,
         signal: AbortSignal.timeout(5000)

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis Test - ExoPlanet AI</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .classification {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-align: center;
+        }
+
+        .classification.confirmed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .classification.candidate {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .classification.false_positive {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .probability-bars {
+            margin: 20px 0;
+        }
+
+        .probability-bar {
+            margin: 10px 0;
+        }
+
+        .probability-bar label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .bar-fill.confirmed {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .bar-fill.candidate {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .bar-fill.false_positive {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔬 ExoPlanet AI - Data Analysis Test</h1>
+        <p>Test the complete data analysis pipeline from input to results display.</p>
+
+        <div class="analysis-section">
+            <h2>🪐 Exoplanet Prediction Analysis</h2>
+            <p>Enter exoplanet characteristics to get AI-powered classification and analysis.</p>
+
+            <form id="analysis-form" class="input-form">
+                <div class="form-group">
+                    <label for="orbital_period">Orbital Period (days)</label>
+                    <input type="number" id="orbital_period" name="orbital_period" value="365.25" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="transit_duration">Transit Duration (hours)</label>
+                    <input type="number" id="transit_duration" name="transit_duration" value="6.0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="planetary_radius">Planetary Radius (Earth radii)</label>
+                    <input type="number" id="planetary_radius" name="planetary_radius" value="1.0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="transit_depth">Transit Depth (%)</label>
+                    <input type="number" id="transit_depth" name="transit_depth" value="0.01" step="0.001" required>
+                </div>
+                <div class="form-group">
+                    <label for="stellar_magnitude">Stellar Magnitude</label>
+                    <input type="number" id="stellar_magnitude" name="stellar_magnitude" value="12.5" step="0.1"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="equilibrium_temperature">Equilibrium Temperature (K)</label>
+                    <input type="number" id="equilibrium_temperature" name="equilibrium_temperature" value="288"
+                        step="1" required>
+                </div>
+            </form>
+
+            <div style="text-align: center; margin: 20px 0;">
+                <button onclick="runAnalysis()" id="analyze-btn">🚀 Analyze Exoplanet</button>
+                <button onclick="loadPresetData('earth-like')"
+                    style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🌍 Earth-like</button>
+                <button onclick="loadPresetData('hot-jupiter')"
+                    style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">🔥 Hot Jupiter</button>
+                <button onclick="loadPresetData('super-earth')"
+                    style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">🌎 Super Earth</button>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h3>📊 Analysis Results</h3>
+                <div id="results-content"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h2>📈 Real-time Data Analysis</h2>
+            <p>Test live data retrieval and analysis from the backend API.</p>
+
+            <button onclick="testExoplanetData()">📊 Load Exoplanet Database</button>
+            <button onclick="testModelInfo()">🤖 Get Model Information</button>
+            <button onclick="testSystemStatus()">⚡ Check System Status</button>
+
+            <div id="data-results" class="results-container" style="display: none;">
+                <div id="data-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/v1';
+
+        // Preset data configurations
+        const presets = {
+            'earth-like': {
+                orbital_period: 365.25,
+                transit_duration: 6.2,
+                planetary_radius: 1.0,
+                transit_depth: 0.008,
+                stellar_magnitude: 11.5,
+                equilibrium_temperature: 288
+            },
+            'hot-jupiter': {
+                orbital_period: 3.5,
+                transit_duration: 2.8,
+                planetary_radius: 11.2,
+                transit_depth: 1.2,
+                stellar_magnitude: 9.8,
+                equilibrium_temperature: 1200
+            },
+            'super-earth': {
+                orbital_period: 85.7,
+                transit_duration: 4.1,
+                planetary_radius: 1.8,
+                transit_depth: 0.025,
+                stellar_magnitude: 13.2,
+                equilibrium_temperature: 450
+            }
+        };
+
+        // Load preset data
+        function loadPresetData(presetName) {
+            const preset = presets[presetName];
+            if (!preset) return;
+
+            Object.keys(preset).forEach(key => {
+                const input = document.getElementById(key);
+                if (input) {
+                    input.value = preset[key];
+                }
+            });
+
+            showMessage(`Loaded ${presetName.replace('-', ' ')} preset data`, 'success');
+        }
+
+        // Run analysis
+        async function runAnalysis() {
+            const form = document.getElementById('analysis-form');
+            const btn = document.getElementById('analyze-btn');
+            const resultsContainer = document.getElementById('results-container');
+            const resultsContent = document.getElementById('results-content');
+
+            // Disable button and show loading
+            btn.disabled = true;
+            btn.innerHTML = '🔄 Analyzing...';
+
+            resultsContainer.style.display = 'block';
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div><span style="margin-left: 15px;">Running AI analysis...</span></div>';
+
+            try {
+                // Get form data
+                const formData = new FormData(form);
+                const data = {};
+                for (const [key, value] of formData.entries()) {
+                    data[key] = parseFloat(value);
+                }
+
+                // Make API request
+                const response = await fetch(`${API_BASE}/predictions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayAnalysisResults(result.data, data);
+                    showMessage('Analysis completed successfully!', 'success');
+                } else {
+                    throw new Error(result.message || 'Analysis failed');
+                }
+
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                resultsContent.innerHTML = `<div class="error">❌ Analysis failed: ${error.message}</div>`;
+                showMessage(`Analysis failed: ${error.message}`, 'error');
+            } finally {
+                // Reset button
+                btn.disabled = false;
+                btn.innerHTML = '🚀 Analyze Exoplanet';
+            }
+        }
+
+        // Display analysis results
+        function displayAnalysisResults(result, inputData) {
+            const resultsContent = document.getElementById('results-content');
+
+            const classification = result.classification || 'Unknown';
+            const confidence = result.confidence || 0;
+            const probability = result.probability || {};
+
+            resultsContent.innerHTML = `
+                <div class="result-card">
+                    <h4>🎯 Classification Result</h4>
+                    <div class="classification ${classification.toLowerCase().replace(' ', '_')}">
+                        ${classification} (${confidence.toFixed(1)}% confidence)
+                    </div>
+                    
+                    <div class="probability-bars">
+                        <h5>📊 Probability Distribution</h5>
+                        ${Object.entries(probability).map(([key, value]) => `
+                            <div class="probability-bar">
+                                <label>${key.replace('_', ' ').toUpperCase()}</label>
+                                <div class="bar">
+                                    <div class="bar-fill ${key}" style="width: ${(value * 100).toFixed(1)}%">
+                                        ${(value * 100).toFixed(1)}%
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">${result.prediction_id || 'N/A'}</div>
+                            <div class="metric-label">Prediction ID</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">${(result.processing_time || 0).toFixed(3)}s</div>
+                            <div class="metric-label">Processing Time</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">${new Date(result.timestamp * 1000).toLocaleTimeString()}</div>
+                            <div class="metric-label">Analysis Time</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <h5>📝 Input Parameters</h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 14px;">
+                            ${Object.entries(inputData).map(([key, value]) => `
+                                <div><strong>${key.replace('_', ' ')}:</strong> ${value}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Test exoplanet data
+        async function testExoplanetData() {
+            const dataResults = document.getElementById('data-results');
+            const dataContent = document.getElementById('data-content');
+
+            dataResults.style.display = 'block';
+            dataContent.innerHTML = '<div class="loading"><div class="spinner"></div><span style="margin-left: 15px;">Loading exoplanet data...</span></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/exoplanets?limit=5`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const exoplanets = result.data.exoplanets || [];
+                    dataContent.innerHTML = `
+                        <div class="result-card">
+                            <h4>🪐 Exoplanet Database (${exoplanets.length} samples)</h4>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                                    <thead>
+                                        <tr style="background: rgba(255, 255, 255, 0.1);">
+                                            <th style="padding: 10px; text-align: left;">Name</th>
+                                            <th style="padding: 10px; text-align: left;">Host Star</th>
+                                            <th style="padding: 10px; text-align: left;">Method</th>
+                                            <th style="padding: 10px; text-align: left;">Year</th>
+                                            <th style="padding: 10px; text-align: left;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${exoplanets.map(planet => `
+                                            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                                                <td style="padding: 10px;">${planet.name}</td>
+                                                <td style="padding: 10px;">${planet.host_star}</td>
+                                                <td style="padding: 10px;">${planet.discovery_method}</td>
+                                                <td style="padding: 10px;">${planet.discovery_year}</td>
+                                                <td style="padding: 10px;"><span style="background: #10b981; padding: 2px 8px; border-radius: 12px; font-size: 12px;">${planet.status}</span></td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                    showMessage('Exoplanet data loaded successfully!', 'success');
+                } else {
+                    throw new Error('Failed to load data');
+                }
+            } catch (error) {
+                dataContent.innerHTML = `<div class="error">❌ Failed to load exoplanet data: ${error.message}</div>`;
+                showMessage(`Data loading failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test model info
+        async function testModelInfo() {
+            const dataResults = document.getElementById('data-results');
+            const dataContent = document.getElementById('data-content');
+
+            dataResults.style.display = 'block';
+            dataContent.innerHTML = '<div class="loading"><div class="spinner"></div><span style="margin-left: 15px;">Loading model information...</span></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/models`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const models = result.data.models || [];
+                    dataContent.innerHTML = `
+                        <div class="result-card">
+                            <h4>🤖 AI Model Information</h4>
+                            ${models.map(model => `
+                                <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 8px; margin: 10px 0;">
+                                    <h5>${model.name}</h5>
+                                    <div class="metrics-grid">
+                                        <div class="metric-card">
+                                            <div class="metric-value">${model.type}</div>
+                                            <div class="metric-label">Model Type</div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-value">${(model.accuracy * 100).toFixed(1)}%</div>
+                                            <div class="metric-label">Accuracy</div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-value">${model.version}</div>
+                                            <div class="metric-label">Version</div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-value">${model.status.toUpperCase()}</div>
+                                            <div class="metric-label">Status</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    showMessage('Model information loaded successfully!', 'success');
+                } else {
+                    throw new Error('Failed to load model info');
+                }
+            } catch (error) {
+                dataContent.innerHTML = `<div class="error">❌ Failed to load model information: ${error.message}</div>`;
+                showMessage(`Model info loading failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test system status
+        async function testSystemStatus() {
+            const dataResults = document.getElementById('data-results');
+            const dataContent = document.getElementById('data-content');
+
+            dataResults.style.display = 'block';
+            dataContent.innerHTML = '<div class="loading"><div class="spinner"></div><span style="margin-left: 15px;">Checking system status...</span></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const services = result.data.services || {};
+                    dataContent.innerHTML = `
+                        <div class="result-card">
+                            <h4>⚡ System Status</h4>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-value">${result.data.status.toUpperCase()}</div>
+                                    <div class="metric-label">Overall Status</div>
+                                </div>
+                                ${Object.entries(services).map(([service, status]) => `
+                                    <div class="metric-card">
+                                        <div class="metric-value" style="color: ${status === 'connected' || status === 'loaded' || status === 'available' ? '#10b981' : '#ef4444'}">${status.toUpperCase()}</div>
+                                        <div class="metric-label">${service.replace('_', ' ')}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="margin-top: 15px; font-size: 14px; color: #94a3b8;">
+                                Last updated: ${new Date(result.data.timestamp * 1000).toLocaleString()}
+                            </div>
+                        </div>
+                    `;
+                    showMessage('System status loaded successfully!', 'success');
+                } else {
+                    throw new Error('Failed to load system status');
+                }
+            } catch (error) {
+                dataContent.innerHTML = `<div class="error">❌ Failed to load system status: ${error.message}</div>`;
+                showMessage(`Status check failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messageEl = document.createElement('div');
+            messageEl.className = type;
+            messageEl.textContent = message;
+            messageEl.style.position = 'fixed';
+            messageEl.style.top = '20px';
+            messageEl.style.right = '20px';
+            messageEl.style.zIndex = '10000';
+            messageEl.style.padding = '15px 20px';
+            messageEl.style.borderRadius = '8px';
+            messageEl.style.maxWidth = '300px';
+
+            document.body.appendChild(messageEl);
+
+            setTimeout(() => {
+                messageEl.remove();
+            }, 3000);
+        }
+
+        // Auto-load Earth-like preset on page load
+        window.addEventListener('load', () => {
+            loadPresetData('earth-like');
+        });
+    </script>
+</body>
+
+</html>

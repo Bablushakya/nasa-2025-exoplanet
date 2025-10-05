@@ -1,0 +1,81 @@
+version: '3.8'
+
+# Production overrides for ExoPlanet AI Enhanced
+services:
+  backend:
+    environment:
+      - DEBUG=False
+      - ENVIRONMENT=production
+      - LOG_LEVEL=WARNING
+    command: ["sh", "-c", "python scripts/startup.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4"]
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+
+  frontend:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+
+  # Production PostgreSQL (uncomment for production)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: exoplanet-ai-postgres-prod
+  #   environment:
+  #     POSTGRES_DB: exoplanet_ai
+  #     POSTGRES_USER: exoplanet_user
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - postgres_prod_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '1.0'
+  #         memory: 1G
+  #       reservations:
+  #         cpus: '0.5'
+  #         memory: 512M
+  #   networks:
+  #     - exoplanet-network
+
+  # Production Redis (uncomment for production)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: exoplanet-ai-redis-prod
+  #   command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+  #   volumes:
+  #     - redis_prod_data:/data
+  #   restart: unless-stopped
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '0.5'
+  #         memory: 512M
+  #       reservations:
+  #         cpus: '0.25'
+  #         memory: 256M
+  #   networks:
+  #     - exoplanet-network
+
+# volumes:
+#   postgres_prod_data:
+#   redis_prod_data:
