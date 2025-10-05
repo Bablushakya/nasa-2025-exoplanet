@@ -25,21 +25,38 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 def main():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print(f"🚀 ExoPlanet AI Frontend Server")
-        print(f"📡 Serving at http://localhost:{PORT}")
-        print(f"📁 Directory: {os.getcwd()}")
-        print(f"🌐 Opening browser...")
-        print(f"⏹️  Press Ctrl+C to stop the server")
-        
-        # Open browser
-        webbrowser.open(f'http://localhost:{PORT}')
-        
+    port = PORT
+    max_attempts = 10
+    
+    for attempt in range(max_attempts):
         try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print(f"\n🛑 Server stopped")
-            sys.exit(0)
+            with socketserver.TCPServer(("", port), Handler) as httpd:
+                print(f"🚀 ExoPlanet AI Frontend Server")
+                print(f"📡 Serving at http://localhost:{port}")
+                print(f"📁 Directory: {os.getcwd()}")
+                print(f"🌐 Opening browser...")
+                print(f"⏹️  Press Ctrl+C to stop the server")
+                
+                # Open browser
+                webbrowser.open(f'http://localhost:{port}')
+                
+                try:
+                    httpd.serve_forever()
+                except KeyboardInterrupt:
+                    print(f"\n🛑 Server stopped")
+                    sys.exit(0)
+                break
+        except OSError as e:
+            if e.errno == 10048 or 'address already in use' in str(e).lower():
+                print(f"⚠️  Port {port} is already in use, trying {port + 1}...")
+                port += 1
+                if attempt == max_attempts - 1:
+                    print(f"\n❌ Could not find an available port after {max_attempts} attempts.")
+                    print(f"💡 Please close other applications or kill the process using port {PORT}")
+                    print(f"💡 Run: netstat -ano | findstr :{PORT}")
+                    sys.exit(1)
+            else:
+                raise
 
 if __name__ == "__main__":
     main()

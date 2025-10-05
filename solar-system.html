@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Solar System - Explore our solar system with 3D visualization">
+    <title>Solar System - ExoPlanet AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/ui-fixes.css">
+    <link rel="stylesheet" href="css/chatbot.css">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-globe nav-logo-icon"></i>
+                <span class="nav-logo-text">ExoPlanet AI</span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="explorer.html" class="nav-link">Explorer</a>
+                </li>
+                <li class="nav-item">
+                    <a href="solar-system.html" class="nav-link active">Solar System</a>
+                </li>
+                <li class="nav-item">
+                    <a href="learn.html" class="nav-link">Learn</a>
+                </li>
+                <li class="nav-item">
+                    <a href="model.html" class="nav-link">Model</a>
+                </li>
+                <li class="nav-item">
+                    <a href="api.html" class="nav-link">API</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="solar-system-main">
+        <!-- Hero Section -->
+        <section class="solar-system-hero">
+            <div class="container">
+                <h1>Interactive Solar System</h1>
+                <p>Explore our solar system with real-time 3D visualization and detailed planetary data</p>
+            </div>
+        </section>
+
+        <!-- Solar System Visualization -->
+        <section class="solar-system-container">
+            <!-- Modern Control Panel -->
+            <div class="modern-control-panel">
+                <div class="control-panel-header">
+                    <h3><i class="fas fa-satellite"></i> Solar System Controls</h3>
+                    <div class="panel-status">
+                        <span class="status-indicator active"></span>
+                        <span class="status-text">System Active</span>
+                    </div>
+                </div>
+                
+                <div class="control-sections">
+                    <!-- Animation Controls -->
+                    <div class="control-section">
+                        <div class="section-header">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Animation</span>
+                        </div>
+                        <div class="control-row">
+                            <button class="modern-btn play-pause-btn" id="play-pause-btn">
+                                <div class="btn-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="btn-content">
+                                    <span class="btn-label">Play</span>
+                                    <span class="btn-sublabel">Start simulation</span>
+                                </div>
+                            </button>
+                            <button class="modern-btn secondary" id="reset-btn">
+                                <div class="btn-icon">
+                                    <i class="fas fa-redo"></i>
+                                </div>
+                                <div class="btn-content">
+                                    <span class="btn-label">Reset</span>
+                                </div>
+                            </button>
+                            <button class="modern-btn fullscreen-btn" id="fullscreen-btn">
+                                <div class="btn-icon">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                                <div class="btn-content">
+                                    <span class="btn-label">Fullscreen</span>
+                                    <span class="btn-sublabel">Immersive view</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Speed Controls -->
+                    <div class="control-section">
+                        <div class="section-header">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Speed Control</span>
+                        </div>
+                        <div class="speed-control">
+                            <div class="speed-presets">
+                                <button class="speed-preset" data-speed="0.1">0.1x</button>
+                                <button class="speed-preset active" data-speed="0.5">0.5x</button>
+                                <button class="speed-preset" data-speed="1">1x</button>
+                                <button class="speed-preset" data-speed="2">2x</button>
+                                <button class="speed-preset" data-speed="3">3x</button>
+                            </div>
+                            <div class="speed-slider-container">
+                                <input type="range" id="speed-slider" min="0.1" max="3" value="0.5" step="0.1" class="modern-slider">
+                                <div class="slider-track"></div>
+                                <div class="speed-display">
+                                    <span id="speed-value">0.5x</span>
+                                    <span class="speed-label">Speed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View Controls -->
+                    <div class="control-section">
+                        <div class="section-header">
+                            <i class="fas fa-eye"></i>
+                            <span>View Mode</span>
+                        </div>
+                        <div class="view-tabs">
+                            <button class="view-tab active" data-view="overview">
+                                <i class="fas fa-globe"></i>
+                                <span>Overview</span>
+                            </button>
+                            <button class="view-tab" data-view="inner">
+                                <i class="fas fa-sun"></i>
+                                <span>Inner</span>
+                            </button>
+                            <button class="view-tab" data-view="outer">
+                                <i class="fas fa-snowflake"></i>
+                                <span>Outer</span>
+                            </button>
+                            <button class="view-tab" data-view="follow">
+                                <i class="fas fa-crosshairs"></i>
+                                <span>Follow</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scale & Display Options -->
+                    <div class="control-section">
+                        <div class="section-header">
+                            <i class="fas fa-ruler"></i>
+                            <span>Display Options</span>
+                        </div>
+                        <div class="option-toggles">
+                            <div class="toggle-group">
+                                <label class="toggle-label">Scale Mode</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="scale-toggle" checked>
+                                    <label for="scale-toggle" class="toggle-slider">
+                                        <span class="toggle-option left">Realistic</span>
+                                        <span class="toggle-option right">Visual</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="toggle-group">
+                                <label class="toggle-label">Show Orbits</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="orbits-toggle" checked>
+                                    <label for="orbits-toggle" class="toggle-slider simple">
+                                        <span class="slider-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="toggle-group">
+                                <label class="toggle-label">Show Labels</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="labels-toggle" checked>
+                                    <label for="labels-toggle" class="toggle-slider simple">
+                                        <span class="slider-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="toggle-group">
+                                <label class="toggle-label">Planet Trails</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="trails-toggle">
+                                    <label for="trails-toggle" class="toggle-slider simple">
+                                        <span class="slider-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time Controls -->
+                    <div class="control-section">
+                        <div class="section-header">
+                            <i class="fas fa-clock"></i>
+                            <span>Time Control</span>
+                        </div>
+                        <div class="time-controls">
+                            <div class="time-display">
+                                <div class="current-date" id="current-date">
+                                    <span class="date-label">Simulation Date</span>
+                                    <span class="date-value" id="simulation-date">January 1, 2025</span>
+                                </div>
+                            </div>
+                            <div class="time-buttons">
+                                <button class="time-btn" id="time-backward">
+                                    <i class="fas fa-backward"></i>
+                                    <span>-1 Year</span>
+                                </button>
+                                <button class="time-btn" id="time-today">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span>Today</span>
+                                </button>
+                                <button class="time-btn" id="time-forward">
+                                    <i class="fas fa-forward"></i>
+                                    <span>+1 Year</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Solar System Canvas -->
+            <div class="solar-system-canvas-container">
+                <canvas id="solar-system-canvas"></canvas>
+                
+                <!-- Modern Info Overlay -->
+                <div class="canvas-overlay">
+                    <div class="info-card top-left" id="system-info">
+                        <div class="info-header">
+                            <i class="fas fa-info-circle"></i>
+                            <span>System Info</span>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-item">
+                                <span class="info-label">Planets</span>
+                                <span class="info-value">8</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Dwarf Planets</span>
+                                <span class="info-value">1</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Age</span>
+                                <span class="info-value">4.6B years</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card top-right" id="selected-planet-info" style="display: none;">
+                        <div class="info-header">
+                            <i class="fas fa-globe"></i>
+                            <span id="selected-planet-name">Planet</span>
+                        </div>
+                        <div class="info-content">
+                            <div class="planet-quick-stats">
+                                <div class="quick-stat">
+                                    <span class="stat-icon"><i class="fas fa-ruler"></i></span>
+                                    <div class="stat-info">
+                                        <span class="stat-value" id="selected-planet-distance">0 AU</span>
+                                        <span class="stat-label">Distance</span>
+                                    </div>
+                                </div>
+                                <div class="quick-stat">
+                                    <span class="stat-icon"><i class="fas fa-clock"></i></span>
+                                    <div class="stat-info">
+                                        <span class="stat-value" id="selected-planet-period">0 days</span>
+                                        <span class="stat-label">Orbital Period</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="info-btn" id="view-planet-details">
+                                <i class="fas fa-external-link-alt"></i>
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-card bottom-left" id="interaction-help">
+                        <div class="help-content">
+                            <div class="help-item">
+                                <i class="fas fa-mouse-pointer"></i>
+                                <span>Click planets for details</span>
+                            </div>
+                            <div class="help-item">
+                                <i class="fas fa-hand-paper"></i>
+                                <span>Drag to pan view</span>
+                            </div>
+                            <div class="help-item">
+                                <i class="fas fa-search-plus"></i>
+                                <span>Scroll to zoom</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card bottom-right" id="performance-info">
+                        <div class="performance-stats">
+                            <div class="perf-stat">
+                                <span class="perf-label">FPS</span>
+                                <span class="perf-value" id="fps-counter">60</span>
+                            </div>
+                            <div class="perf-stat">
+                                <span class="perf-label">Objects</span>
+                                <span class="perf-value">9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Screen -->
+                <div class="canvas-loading" id="canvas-loading">
+                    <div class="loading-content">
+                        <div class="loading-spinner-modern">
+                            <div class="spinner-orbit">
+                                <div class="spinner-planet"></div>
+                            </div>
+                        </div>
+                        <h3>Loading Solar System</h3>
+                        <p>Initializing planetary data...</p>
+                        <div class="loading-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="loading-progress"></div>
+                            </div>
+                            <span class="progress-text" id="loading-text">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planet Information Panel -->
+        <section class="planet-info-section" id="planet-info-section" style="display: none;">
+            <div class="container">
+                <div class="planet-info-grid">
+                    <div class="planet-visual">
+                        <div class="planet-sphere" id="planet-sphere">
+                            <!-- 3D planet representation -->
+                        </div>
+                        <div class="planet-stats">
+                            <h2 id="planet-name">Planet Name</h2>
+                            <p id="planet-type">Planet Type</p>
+                            <div class="quick-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Distance from Sun</span>
+                                    <span class="stat-value" id="planet-distance">0 AU</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Orbital Period</span>
+                                    <span class="stat-value" id="planet-period">0 days</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Radius</span>
+                                    <span class="stat-value" id="planet-radius">0 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="planet-details">
+                        <div class="planet-description">
+                            <h3>About <span id="planet-name-desc">Planet</span></h3>
+                            <p id="planet-description">Planet description will appear here.</p>
+                        </div>
+                        
+                        <div class="planet-facts">
+                            <h3>Interesting Facts</h3>
+                            <ul id="planet-facts-list">
+                                <!-- Facts will be populated by JavaScript -->
+                            </ul>
+                        </div>
+                        
+                        <div class="planet-metrics">
+                            <h3>Physical Properties</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-item">
+                                    <span class="metric-label">Mass</span>
+                                    <span class="metric-value" id="planet-mass">0 kg</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Surface Gravity</span>
+                                    <span class="metric-value" id="planet-gravity">0 m/s²</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Surface Temperature</span>
+                                    <span class="metric-value" id="planet-temperature">0 K</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Escape Velocity</span>
+                                    <span class="metric-value" id="planet-escape">0 km/s</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Rotation Period</span>
+                                    <span class="metric-value" id="planet-rotation">0 hours</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Moons</span>
+                                    <span class="metric-value" id="planet-moons">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="planet-comparison">
+                    <h3>Compare with Earth</h3>
+                    <canvas id="planet-comparison-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planets Overview -->
+        <section class="planets-overview content-section">
+            <div class="container">
+                <h2 class="section-title">Planets of Our Solar System</h2>
+                <div class="planets-grid" id="planets-grid">
+                    <!-- Planet cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Solar System Facts -->
+        <section class="solar-system-facts content-section">
+            <div class="container">
+                <h2 class="section-title">Solar System Facts</h2>
+                <div class="facts-grid">
+                    <div class="fact-card">
+                        <div class="fact-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h3>The Sun</h3>
+                        <p>Contains 99.86% of the solar system's mass and is 109 times wider than Earth.</p>
+                    </div>
+                    
+                    <div class="fact-card">
+                        <div class="fact-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>8 Planets</h3>
+                        <p>Our solar system has 8 planets, from Mercury closest to the Sun to Neptune farthest away.</p>
+                    </div>
+                    
+                    <div class="fact-card">
+                        <div class="fact-icon">
+                            <i class="fas fa-meteor"></i>
+                        </div>
+                        <h3>Asteroid Belt</h3>
+                        <p>Between Mars and Jupiter lies the asteroid belt with millions of rocky objects.</p>
+                    </div>
+                    
+                    <div class="fact-card">
+                        <div class="fact-icon">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <h3>Kuiper Belt</h3>
+                        <p>Beyond Neptune lies the Kuiper Belt, home to Pluto and other dwarf planets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-text">Loading solar system...</div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/solar-system.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+/* ExoPlanet AI - UI Fixes & Improvements */
+
+/* ========================================
+   1. NAVIGATION FIXES
+   ======================================== */
+
+/* Fix navigation z-index and positioning */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000; /* Highest - above chatbot */
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Prevent content from hiding under navbar */
+body {
+  padding-top: 0;
+}
+
+main {
+  padding-top: 70px; /* Height of navbar */
+}
+
+/* Fix mobile menu overlapping */
+.nav-menu {
+  z-index: 10001;
+}
+
+@media (max-width: 1023.98px) {
+  .nav-menu {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ========================================
+   2. HERO SECTION FIXES
+   ======================================== */
+
+.hero {
+  min-height: 100vh;
+  padding-top: 70px; /* Account for navbar */
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+/* Fix floating planet overlapping text */
+.floating-planet {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 991.98px) {
+  .hero {
+    min-height: auto;
+    padding: 100px 0 var(--spacing-3xl);
+  }
+  
+  .hero-content {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* ========================================
+   3. CARD LAYOUT FIXES
+   ======================================== */
+
+/* Prevent card overlapping */
+.glass-card,
+.card,
+.feature-card,
+.stat-card {
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Fix grid gaps on mobile */
+@media (max-width: 767.98px) {
+  .stats-grid,
+  .features-grid,
+  .exoplanet-grid {
+    gap: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* ========================================
+   4. FORM LAYOUT FIXES
+   ======================================== */
+
+/* Fix form grid on mobile */
+.form-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 767.98px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Fix form inputs on mobile */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Prevent input zoom on iOS */
+@media (max-width: 767.98px) {
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+}
+
+/* ========================================
+   5. DASHBOARD LAYOUT FIXES
+   ======================================== */
+
+.dashboard-main {
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+/* Fix sidebar overlapping on mobile */
+@media (max-width: 1023.98px) {
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+  
+  .dashboard-sidebar,
+  .dashboard-right-sidebar {
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: var(--spacing-xl);
+  }
+  
+  .dashboard-sidebar,
+  .dashboard-right-sidebar {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+  }
+}
+
+/* ========================================
+   6. EXPLORER LAYOUT FIXES
+   ======================================== */
+
+.explorer-main {
+  padding-top: 70px;
+}
+
+.explorer-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+/* Fix filter panel on mobile */
+@media (max-width: 1023.98px) {
+  .explorer-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+  
+  .filter-panel {
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    order: -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .explorer-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  .filter-panel {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+  }
+}
+
+/* Fix planet grid on mobile */
+.exoplanet-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 767.98px) {
+  .exoplanet-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .exoplanet-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .exoplanet-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ========================================
+   7. MODAL FIXES
+   ======================================== */
+
+.modal {
+  z-index: 99999; /* Above everything */
+}
+
+.modal-backdrop {
+  z-index: 99998;
+}
+
+.modal-content {
+  z-index: 99999;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 767.98px) {
+  .modal-content {
+    max-width: 95vw;
+    max-height: 95vh;
+    margin: var(--spacing-sm);
+  }
+}
+
+/* ========================================
+   8. TOAST NOTIFICATION FIXES
+   ======================================== */
+
+.toast-container {
+  position: fixed;
+  z-index: 100000; /* Above modal */
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: all;
+}
+
+@media (max-width: 767.98px) {
+  .toast-container {
+    top: 80px; /* Below navbar */
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+  }
+  
+  .toast {
+    min-width: auto;
+    max-width: 100%;
+  }
+}
+
+/* ========================================
+   9. BUTTON FIXES
+   ======================================== */
+
+.btn {
+  min-height: 44px; /* Accessibility */
+  min-width: 44px;
+  white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .hero-buttons .btn {
+    max-width: 100%;
+  }
+}
+
+/* ========================================
+   10. TIMELINE FIXES
+   ======================================== */
+
+@media (max-width: 767.98px) {
+  .timeline::before {
+    left: 20px;
+  }
+  
+  .timeline-item {
+    padding-left: 50px;
+  }
+  
+  .timeline-number {
+    position: absolute;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+  }
+  
+  .timeline-content {
+    margin: 0;
+    max-width: 100%;
+  }
+}
+
+/* ========================================
+   11. FOOTER FIXES
+   ======================================== */
+
+.footer {
+  margin-top: var(--spacing-3xl);
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767.98px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    text-align: center;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   12. SCROLLBAR IMPROVEMENTS
+   ======================================== */
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 5px;
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) var(--surface-color);
+}
+
+/* ========================================
+   13. LOADING OVERLAY FIXES
+   ======================================== */
+
+.loading-overlay {
+  z-index: 999999; /* Above everything */
+}
+
+/* ========================================
+   14. ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: var(--spacing-md);
+  z-index: 100000;
+  transition: top var(--transition-fast);
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* ========================================
+   15. CONTAINER IMPROVEMENTS
+   ======================================== */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+@media (max-width: 767.98px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* ========================================
+   16. SPACING CONSISTENCY
+   ======================================== */
+
+.content-section {
+  padding: var(--spacing-3xl) 0;
+  position: relative;
+}
+
+@media (max-width: 767.98px) {
+  .content-section {
+    padding: var(--spacing-2xl) 0;
+  }
+}
+
+/* ========================================
+   17. IMAGE OPTIMIZATION
+   ======================================== */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   18. TABLE RESPONSIVENESS
+   ======================================== */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 767.98px) {
+  .table-container {
+    margin: 0 calc(var(--spacing-md) * -1);
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* ========================================
+   19. ANIMATION PERFORMANCE
+   ======================================== */
+
+/* Use GPU acceleration for animations */
+.floating-planet,
+.nav-logo-icon,
+.spinner-ring {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ========================================
+   20. PRINT STYLES
+   ======================================== */
+
+@media print {
+  .navbar,
+  .nav-toggle,
+  .theme-toggle,
+  .floating-planet,
+  .particles-container,
+  .toast-container,
+  .loading-overlay,
+  .btn {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+    padding-top: 0 !important;
+  }
+  
+  main {
+    padding-top: 0 !important;
+  }
+  
+  .glass-card,
+  .card {
+    border: 1px solid #ccc !important;
+    background: white !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* ========================================
+   21. REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   22. HIGH CONTRAST MODE
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  .glass-card,
+  .card,
+  .btn-secondary {
+    border-width: 2px;
+  }
+  
+  .nav-link:focus,
+  .btn:focus {
+    outline-width: 3px;
+  }
+}
+
+/* ========================================
+   23. DARK MODE IMPROVEMENTS
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background-color: #0f172a;
+    --surface-color: #1e293b;
+    --text-primary: #e2e8f0;
+  }
+}
+
+/* ========================================
+   24. UTILITY CLASSES
+   ======================================== */
+
+/* Prevent text selection */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+/* Truncate text */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* ========================================
+   25. FINAL FIXES
+   ======================================== */
+
+/* Prevent horizontal scroll */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed navbar */
+}
+
+/* Fix iOS input zoom */
+@media (max-width: 767.98px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}

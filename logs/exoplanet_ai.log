@@ -1,0 +1,12 @@
+{"asctime": "2025-10-05 19:53:18,907", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 19:53:18,928", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:53:19,118", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 19:53:19,120", "name": "app.main", "levelname": "INFO", "message": "Shutting down ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:55:14,336", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 19:55:14,350", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:55:14,362", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 19:55:14,363", "name": "app.main", "levelname": "INFO", "message": "Shutting down ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:55:46,275", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 19:55:46,290", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:55:46,299", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 19:57:03,661", "name": "app.main", "levelname": "INFO", "message": "Shutting down ExoPlanet AI API..."}

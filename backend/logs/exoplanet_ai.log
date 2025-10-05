@@ -44,3 +44,36 @@
 {"asctime": "2025-10-05 12:39:47,329", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
 {"asctime": "2025-10-05 12:39:47,349", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
 {"asctime": "2025-10-05 13:28:47,607", "name": "asyncio", "levelname": "ERROR", "message": "Exception in callback _ProactorBasePipeTransport._call_connection_lost()\nhandle: <Handle _ProactorBasePipeTransport._call_connection_lost()>", "exc_info": "Traceback (most recent call last):\n  File \"C:\\Program Files\\Python313\\Lib\\asyncio\\events.py\", line 89, in _run\n    self._context.run(self._callback, *self._args)\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Program Files\\Python313\\Lib\\asyncio\\proactor_events.py\", line 165, in _call_connection_lost\n    self._sock.shutdown(socket.SHUT_RDWR)\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\nConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host"}
+{"asctime": "2025-10-05 14:26:30,288", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 14:26:30,317", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 14:26:30,337", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 17:54:13,397", "name": "app.main", "levelname": "INFO", "message": "Shutting down ExoPlanet AI API..."}
+{"asctime": "2025-10-05 18:02:40,949", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 18:02:40,974", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 18:02:40,989", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 18:04:13,053", "name": "app.main", "levelname": "INFO", "message": "Shutting down ExoPlanet AI API..."}
+{"asctime": "2025-10-05 18:05:22,034", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 18:05:22,057", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 18:05:22,065", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 18:38:33,165", "name": "app.main", "levelname": "INFO", "message": "Shutting down ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:38:46,790", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 19:38:46,808", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:38:46,824", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 19:59:11,272", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 19:59:11,288", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 19:59:11,297", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 20:17:08,172", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 20:17:08,190", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 20:17:08,208", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 20:18:15,039", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 20:18:15,069", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 20:18:15,077", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 21:03:28,473", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 21:03:28,495", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 21:03:28,510", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 21:12:55,954", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 21:12:55,982", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 21:12:56,000", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}
+{"asctime": "2025-10-05 21:20:46,607", "name": "root", "levelname": "INFO", "message": "Logging configured successfully"}
+{"asctime": "2025-10-05 21:20:46,628", "name": "app.main", "levelname": "INFO", "message": "Starting ExoPlanet AI API..."}
+{"asctime": "2025-10-05 21:20:46,633", "name": "app.main", "levelname": "INFO", "message": "Database tables created successfully"}

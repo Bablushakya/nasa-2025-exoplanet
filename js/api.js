@@ -156,6 +156,25 @@ class ApiService {
         return this.get(`/predictions/${id}`);
     }
 
+    // Solar System endpoints
+    async getSolarSystemData() {
+        return this.get('/solar-system');
+    }
+
+    async getPlanetDetails(planetId) {
+        return this.get(`/solar-system/planets/${planetId}`);
+    }
+
+    async getPlanetPositions(date = null) {
+        const params = date ? { date } : {};
+        return this.get('/solar-system/positions', params);
+    }
+
+    async getOrbitalData(planetId, timeRange = null) {
+        const params = timeRange ? { timeRange } : {};
+        return this.get(`/solar-system/planets/${planetId}/orbit`, params);
+    }
+
     // Model endpoints
     async getModels() {
         return this.get('/models');

@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about exoplanets and detection methods - Educational content">
+    <meta name="description" content="Learn about Exoplanets - Educational content about exoplanet detection">
     <title>Learn - ExoPlanet AI</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/page-enhancements.css">
-    
+    <link rel="stylesheet" href="css/ui-fixes.css">
+    <link rel="stylesheet" href="css/chatbot.css">
+    <link rel="stylesheet" href="css/quiz.css">
+
     <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -30,7 +35,7 @@
                 <i class="fas fa-globe nav-logo-icon"></i>
                 <span class="nav-logo-text">ExoPlanet AI</span>
             </div>
-            
+
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link">Home</a>
@@ -40,6 +45,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="explorer.html" class="nav-link">Explorer</a>
+                </li>
+                <li class="nav-item">
+                    <a href="solar-system.html" class="nav-link">Solar System</a>
                 </li>
                 <li class="nav-item">
                     <a href="learn.html" class="nav-link active">Learn</a>
@@ -54,7 +62,7 @@
                     <a href="about.html" class="nav-link">About</a>
                 </li>
             </ul>
-            
+
             <div class="nav-controls">
                 <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
                     <i class="fas fa-moon"></i>
@@ -72,291 +80,261 @@
     <main class="learn-main">
         <div class="container">
             <!-- Hero Section -->
-            <section class="learn-hero">
-                <h1>Learn About Exoplanets</h1>
-                <p>Discover the fascinating world of planets beyond our solar system and the methods used to detect them.</p>
+            <section class="learn-hero content-section">
+                <div class="content-grid">
+                    <div class="content-text">
+                        <h1 class="section-title">Learn About Exoplanets</h1>
+                        <p>Discover the fascinating world of planets beyond our solar system and learn how we detect
+                            them using cutting-edge technology and AI.</p>
+                    </div>
+                    <div class="content-visual">
+                        <div class="learn-visual">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- What Are Exoplanets Section -->
-            <section class="content-section" data-aos="fade-up">
-                <div class="section-header">
-                    <h2>What Are Exoplanets?</h2>
-                </div>
-                
+            <section class="exoplanets-intro content-section">
+                <h2 class="section-title">What Are Exoplanets?</h2>
                 <div class="content-grid">
                     <div class="content-text">
-                        <p>Exoplanets, or extrasolar planets, are planets that orbit stars outside our solar system. Since the first confirmed detection in 1995, astronomers have discovered thousands of these distant worlds, revolutionizing our understanding of planetary systems and the potential for life beyond Earth.</p>
-                        
-                        <h3>Types of Exoplanets</h3>
-                        <div class="planet-types">
-                            <div class="planet-type">
-                                <div class="type-icon rocky"></div>
-                                <div class="type-info">
-                                    <h4>Rocky Planets</h4>
-                                    <p>Similar to Earth and Mars, these planets have solid surfaces and are typically smaller than gas giants.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="planet-type">
-                                <div class="type-icon gas-giant"></div>
-                                <div class="type-info">
-                                    <h4>Gas Giants</h4>
-                                    <p>Large planets composed mainly of hydrogen and helium, similar to Jupiter and Saturn.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="planet-type">
-                                <div class="type-icon super-earth"></div>
-                                <div class="type-info">
-                                    <h4>Super-Earths</h4>
-                                    <p>Rocky planets larger than Earth but smaller than Neptune, with no equivalent in our solar system.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="planet-type">
-                                <div class="type-icon hot-jupiter"></div>
-                                <div class="type-info">
-                                    <h4>Hot Jupiters</h4>
-                                    <p>Gas giants that orbit very close to their host stars, resulting in extremely high temperatures.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3>Why Exoplanets Matter</h3>
-                        <ul class="importance-list">
-                            <li><i class="fas fa-search"></i> Help us understand planetary formation and evolution</li>
-                            <li><i class="fas fa-globe-americas"></i> Search for potentially habitable worlds</li>
-                            <li><i class="fas fa-dna"></i> Quest to find signs of life beyond Earth</li>
-                            <li><i class="fas fa-chart-line"></i> Advance our knowledge of stellar systems</li>
+                        <p>Exoplanets, or extrasolar planets, are planets that orbit stars outside our solar system.
+                            Since the first confirmed detection in 1995, astronomers have discovered thousands of these
+                            distant worlds.</p>
+
+                        <h3>Why Are They Important?</h3>
+                        <ul>
+                            <li>Help us understand planetary formation and evolution</li>
+                            <li>Search for potentially habitable worlds</li>
+                            <li>Expand our knowledge of the universe</li>
+                            <li>Answer the question: "Are we alone?"</li>
                         </ul>
                     </div>
-                    
                     <div class="content-visual">
-                        <div class="exoplanet-illustration">
-                            <div class="star"></div>
-                            <div class="planet planet-1"></div>
-                            <div class="planet planet-2"></div>
-                            <div class="planet planet-3"></div>
-                            <div class="orbit orbit-1"></div>
-                            <div class="orbit orbit-2"></div>
-                            <div class="orbit orbit-3"></div>
+                        <div class="planet-comparison">
+                            <div class="planet earth">
+                                <span>Earth</span>
+                            </div>
+                            <div class="planet exoplanet">
+                                <span>Exoplanet</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Transit Method Section -->
-            <section class="content-section transit-section" data-aos="fade-up">
-                <div class="section-header">
-                    <h2>The Transit Method</h2>
-                    <p>The most successful technique for discovering exoplanets</p>
-                </div>
-                
+            <section class="transit-method content-section">
+                <h2 class="section-title">The Transit Method</h2>
                 <div class="transit-explanation">
+                    <div class="transit-content">
+                        <p>The transit method is the most successful technique for detecting exoplanets. It works by
+                            measuring the tiny decrease in a star's brightness when a planet passes in front of it.</p>
+
+                        <h3>How It Works:</h3>
+                        <ol>
+                            <li><strong>Observation:</strong> Continuously monitor star brightness</li>
+                            <li><strong>Detection:</strong> Look for periodic dimming events</li>
+                            <li><strong>Analysis:</strong> Measure the depth and duration of transits</li>
+                            <li><strong>Confirmation:</strong> Verify the planetary nature of the signal</li>
+                        </ol>
+                    </div>
                     <div class="transit-visual">
                         <div class="transit-animation" id="transit-animation">
-                            <div class="star-transit"></div>
-                            <div class="planet-transit"></div>
-                            <div class="light-rays"></div>
-                        </div>
-                        
-                        <div class="light-curve">
-                            <h4>Light Curve</h4>
-                            <canvas id="light-curve-demo"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="transit-steps">
-                        <h3>How It Works</h3>
-                        <div class="step-list">
-                            <div class="step-item">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4>Monitor Star Brightness</h4>
-                                    <p>Telescopes continuously measure the brightness of stars over time.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="step-item">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4>Detect Brightness Dips</h4>
-                                    <p>When a planet passes in front of its star, it blocks some light, causing a temporary dimming.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="step-item">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Analyze the Pattern</h4>
-                                    <p>Regular, periodic dips indicate the presence of an orbiting planet.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="step-item">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h4>Calculate Properties</h4>
-                                    <p>The depth and duration of the dip reveal the planet's size and orbital characteristics.</p>
-                                </div>
+                            <div class="star"></div>
+                            <div class="planet-orbit">
+                                <div class="planet"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Data Variables Glossary -->
-            <section class="content-section glossary-section" data-aos="fade-up">
-                <div class="section-header">
-                    <h2>Data Variables Glossary</h2>
-                    <p>Understanding the key measurements used in exoplanet detection</p>
-                </div>
-                
-                <div class="glossary-accordion">
+            <!-- Data Variables Section -->
+            <section class="data-variables content-section">
+                <h2 class="section-title">Key Data Variables</h2>
+                <div class="variables-accordion">
                     <div class="accordion-item">
-                        <div class="accordion-header" data-target="orbital-period">
+                        <div class="accordion-header">
                             <h3>Orbital Period</h3>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content" id="orbital-period">
-                            <div class="term-explanation">
-                                <p><strong>Definition:</strong> The time it takes for a planet to complete one full orbit around its host star.</p>
-                                <p><strong>Units:</strong> Days, hours, or years</p>
-                                <p><strong>Example:</strong> Earth's orbital period is 365.25 days, while some hot Jupiters have periods of just a few days.</p>
-                                <div class="term-visual">
-                                    <div class="orbital-demo">
-                                        <div class="demo-star"></div>
-                                        <div class="demo-planet"></div>
-                                        <div class="demo-orbit"></div>
-                                    </div>
-                                </div>
-                                <p><strong>Significance:</strong> Shorter periods indicate planets closer to their stars, which affects temperature and atmospheric conditions.</p>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p><strong>Definition:</strong> The time it takes for a planet to complete one orbit
+                                    around its host star.</p>
+                                <p><strong>Measurement:</strong> Measured in days, from the time between successive
+                                    transits.</p>
+                                <p><strong>Significance:</strong> Shorter periods indicate planets closer to their
+                                    stars, which are typically hotter.</p>
+                                <p><strong>Example:</strong> Earth's orbital period is 365.25 days, while some hot
+                                    Jupiters have periods of just a few days.</p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="accordion-item">
-                        <div class="accordion-header" data-target="transit-duration">
+                        <div class="accordion-header">
                             <h3>Transit Duration</h3>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content" id="transit-duration">
-                            <div class="term-explanation">
-                                <p><strong>Definition:</strong> The time it takes for a planet to completely cross in front of its host star during a transit event.</p>
-                                <p><strong>Units:</strong> Hours or minutes</p>
-                                <p><strong>Example:</strong> A typical transit might last 2-6 hours, depending on the planet's size and orbital speed.</p>
-                                <div class="duration-chart">
-                                    <canvas id="duration-chart"></canvas>
-                                </div>
-                                <p><strong>Significance:</strong> Combined with orbital period, helps determine the planet's distance from its star and the star's size.</p>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p><strong>Definition:</strong> The time it takes for a planet to completely cross the
+                                    face of its host star.</p>
+                                <p><strong>Measurement:</strong> Measured in hours, from first contact to last contact.
+                                </p>
+                                <p><strong>Significance:</strong> Depends on the planet's orbital speed and the star's
+                                    size.</p>
+                                <p><strong>Example:</strong> Earth's transit duration as seen from a distant star would
+                                    be about 13 hours.</p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="accordion-item">
-                        <div class="accordion-header" data-target="planetary-radius">
+                        <div class="accordion-header">
                             <h3>Planetary Radius</h3>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content" id="planetary-radius">
-                            <div class="term-explanation">
-                                <p><strong>Definition:</strong> The size of the planet, typically measured relative to Earth's radius (R⊕).</p>
-                                <p><strong>Units:</strong> Earth radii (R⊕) or kilometers</p>
-                                <p><strong>Example:</strong> Jupiter has a radius of about 11 R⊕, while some exoplanets are smaller than Earth at 0.5 R⊕.</p>
-                                <div class="size-comparison">
-                                    <div class="planet-size earth" title="Earth (1 R⊕)">Earth</div>
-                                    <div class="planet-size super-earth" title="Super-Earth (1.5 R⊕)">Super-Earth</div>
-                                    <div class="planet-size neptune" title="Neptune (4 R⊕)">Neptune</div>
-                                    <div class="planet-size jupiter" title="Jupiter (11 R⊕)">Jupiter</div>
-                                </div>
-                                <p><strong>Significance:</strong> Determines the planet's type and potential for having an atmosphere or solid surface.</p>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p><strong>Definition:</strong> The size of the planet, typically measured relative to
+                                    Earth's radius.</p>
+                                <p><strong>Measurement:</strong> Derived from the transit depth and the star's known
+                                    radius.</p>
+                                <p><strong>Significance:</strong> Helps classify planets (Earth-like, super-Earth,
+                                    Neptune-like, Jupiter-like).</p>
+                                <p><strong>Example:</strong> Jupiter has a radius about 11 times that of Earth.</p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="accordion-item">
-                        <div class="accordion-header" data-target="transit-depth">
+                        <div class="accordion-header">
                             <h3>Transit Depth</h3>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content" id="transit-depth">
-                            <div class="term-explanation">
-                                <p><strong>Definition:</strong> The percentage decrease in a star's brightness when a planet transits in front of it.</p>
-                                <p><strong>Units:</strong> Percentage (%) or parts per million (ppm)</p>
-                                <p><strong>Example:</strong> Earth would cause a 0.008% (80 ppm) dip in the Sun's brightness, while larger planets cause deeper dips.</p>
-                                <div class="depth-visualization">
-                                    <div class="brightness-bar">
-                                        <div class="normal-brightness">Normal Brightness</div>
-                                        <div class="transit-dip">Transit Dip</div>
-                                    </div>
-                                </div>
-                                <p><strong>Significance:</strong> Directly related to the planet's size - larger planets block more light and create deeper transits.</p>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p><strong>Definition:</strong> The percentage decrease in starlight during a transit.
+                                </p>
+                                <p><strong>Measurement:</strong> Calculated as the ratio of planet area to star area.
+                                </p>
+                                <p><strong>Significance:</strong> Directly related to the planet's size - larger planets
+                                    create deeper transits.</p>
+                                <p><strong>Example:</strong> Earth would cause a 0.008% decrease in the Sun's
+                                    brightness.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Interactive Quiz -->
-            <section class="content-section quiz-section" data-aos="fade-up">
-                <div class="section-header">
-                    <h2>Test Your Knowledge</h2>
-                    <p>Take this interactive quiz to see how much you've learned about exoplanets!</p>
-                </div>
-                
-                <div class="quiz-container" id="quiz-container">
-                    <div class="quiz-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="quiz-progress"></div>
+            <!-- Planet Types Section -->
+            <section class="planet-types content-section">
+                <h2 class="section-title">Types of Exoplanets</h2>
+                <div class="planet-types-grid">
+                    <div class="planet-type-card">
+                        <div class="planet-type-icon rocky">
+                            <i class="fas fa-mountain"></i>
                         </div>
-                        <span class="progress-text">Question <span id="current-question">1</span> of <span id="total-questions">5</span></span>
-                    </div>
-                    
-                    <div class="quiz-content">
-                        <div class="question-container" id="question-container">
-                            <!-- Questions will be populated by JavaScript -->
-                        </div>
-                        
-                        <div class="quiz-controls">
-                            <button class="btn btn-secondary" id="prev-question" style="display: none;">Previous</button>
-                            <button class="btn btn-primary" id="next-question" disabled>Next Question</button>
-                            <button class="btn btn-primary" id="submit-quiz" style="display: none;">Submit Quiz</button>
+                        <h3>Rocky Planets</h3>
+                        <p>Similar to Earth and Mars, these planets have solid surfaces and are typically smaller than
+                            Neptune.</p>
+                        <div class="planet-stats">
+                            <span>Size: 0.5 - 2 Earth radii</span>
                         </div>
                     </div>
-                    
-                    <div class="quiz-results" id="quiz-results" style="display: none;">
-                        <div class="results-content">
-                            <h3>Quiz Complete!</h3>
-                            <div class="score-display">
-                                <div class="score-circle">
-                                    <span class="score-text" id="final-score">0/5</span>
-                                </div>
-                            </div>
-                            <p class="score-message" id="score-message">Great job!</p>
-                            <button class="btn btn-primary" id="restart-quiz">Take Quiz Again</button>
+
+                    <div class="planet-type-card">
+                        <div class="planet-type-icon super-earth">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Super-Earths</h3>
+                        <p>Larger than Earth but smaller than Neptune, these planets may have thick atmospheres or be
+                            rocky.</p>
+                        <div class="planet-stats">
+                            <span>Size: 1.25 - 2 Earth radii</span>
+                        </div>
+                    </div>
+
+                    <div class="planet-type-card">
+                        <div class="planet-type-icon neptune-like">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Neptune-like</h3>
+                        <p>Gas planets with thick atmospheres, similar in size to Neptune in our solar system.</p>
+                        <div class="planet-stats">
+                            <span>Size: 2 - 6 Earth radii</span>
+                        </div>
+                    </div>
+
+                    <div class="planet-type-card">
+                        <div class="planet-type-icon gas-giant">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <h3>Gas Giants</h3>
+                        <p>Large planets composed mainly of hydrogen and helium, similar to Jupiter and Saturn.</p>
+                        <div class="planet-stats">
+                            <span>Size: 6+ Earth radii</span>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <!-- Interactive Quiz Section -->
+            <section class="quiz-section content-section">
+                <!-- Quiz content will be dynamically generated by interactive-quiz.js -->
+            </section>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ExoPlanet AI</h3>
+                    <p>Advancing exoplanet discovery through artificial intelligence and machine learning.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="explorer.html">Explorer</a></li>
+                        <li><a href="model.html">Model Info</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="#" target="_blank">NASA Exoplanet Archive</a></li>
+                        <li><a href="#" target="_blank">Space Apps Challenge</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ExoPlanet AI. Built with ❤️ for space exploration.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Toast Container -->
     <div class="toast-container" id="toast-container"></div>
 
     <!-- JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/charts.js"></script>
-    <script src="js/space-animations.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/interactive-quiz.js"></script>
+    <script src="js/chatbot.js"></script>
     <script src="js/main.js"></script>
-    
-    <script>
-        // Initialize learn page specific functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeLearnPage();
-        });
-    </script>
 </body>
+
 </html>

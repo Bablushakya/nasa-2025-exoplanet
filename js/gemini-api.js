@@ -42,7 +42,7 @@ class GeminiAPIService {
             }
 
             const data = await response.json();
-            
+
             if (data.candidates && data.candidates[0] && data.candidates[0].content) {
                 return {
                     success: true,

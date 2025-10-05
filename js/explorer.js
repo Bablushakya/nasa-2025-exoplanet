@@ -1,319 +1,463 @@
-// ExoPlanet AI - Explorer Functionality
+// ExoPlanet AI - Explorer Page
 
 /**
- * Explorer Manager Class
+ * Explorer Manager
  */
 class ExplorerManager {
   constructor() {
     this.exoplanets = [];
-    this.filteredPlanets = [];
+    this.filteredExoplanets = [];
     this.currentPage = 1;
     this.itemsPerPage = 12;
     this.currentView = 'grid';
     this.currentSort = 'name';
     this.filters = {
       search: '',
-      missions: [],
+      mission: [],
+      size: [],
       yearRange: [1995, 2025],
-      sizes: [],
       periodRange: [0, 1000],
       distanceRange: [0, 5000]
     };
-    
-    // DOM elements
-    this.searchInput = null;
-    this.filterCheckboxes = null;
-    this.rangeSliders = null;
-    this.sortSelect = null;
-    this.viewButtons = null;
-    this.planetGrid = null;
-    this.pagination = null;
-    this.resultsCount = null;
-    this.planetModal = null;
-    
-    this.init();
+    this.isInitialized = false;
   }
 
+  /**
+   * Initialize explorer
+   */
   async init() {
-    this.setupDOMReferences();
-    await this.loadExoplanetData();
-    this.setupEventListeners();
-    this.setupRangeSliders();
-    this.applyFilters();
-    
-    console.log('Explorer initialized');
-  }
+    if (this.isInitialized) return;
 
-  setupDOMReferences() {
-    this.searchInput = Utils.getElementById('search-input');
-    this.filterCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-    this.sortSelect = Utils.getElementById('sort-select');
-    this.viewButtons = document.querySelectorAll('.view-btn');
-    this.planetGrid = Utils.getElementById('exoplanet-grid');
-    this.pagination = Utils.getElementById('pagination');
-    this.resultsCount = Utils.getElementById('results-count');
-    this.planetModal = Utils.getElementById('planet-modal');
-    
-    // Range sliders
-    this.rangeSliders = {
-      yearMin: Utils.getElementById('year-min'),
-      yearMax: Utils.getElementById('year-max'),
-      periodMin: Utils.getElementById('period-min'),
-      periodMax: Utils.getElementById('period-max'),
-      distanceMin: Utils.getElementById('distance-min'),
-      distanceMax: Utils.getElementById('distance-max')
-    };
-  }
-
-  async loadExoplanetData() {
     try {
-      const response = await fetch('assets/data/sample-data.json');
-      const data = await response.json();
-      this.exoplanets = data.exoplanets;
-      this.filteredPlanets = [...this.exoplanets];
+      // Load exoplanet data
+      await this.loadExoplanets();
+      
+      // Initialize UI components
+      this.initializeFilters();
+      this.initializeViewControls();
+      this.initializePagination();
+      this.initializeModal();
+      
+      // Apply initial filters and render
+      this.applyFilters();
+      
+      this.isInitialized = true;
+      console.log('Explorer initialized successfully');
     } catch (error) {
-      console.error('Failed to load exoplanet data:', error);
-      window.exoPlanetApp?.toastManager?.show('Failed to load exoplanet data', 'error');
+      console.error('Failed to initialize explorer:', error);
+      this.showError('Failed to load exoplanet data');
     }
   }
 
-  setupEventListeners() {
+  /**
+   * Load exoplanet data
+   */
+  async loadExoplanets() {
+    try {
+      // Try to load from API first
+      const response = await apiService.getExoplanets({ limit: 1000 });
+      
+      if (response.success && response.data) {
+        this.exoplanets = response.data.exoplanets || response.data;
+      } else {
+        // Fallback to sample data
+        this.exoplanets = this.generateSampleExoplanets();
+      }
+      
+      console.log(`Loaded ${this.exoplanets.length} exoplanets`);
+    } catch (error) {
+      console.warn('API failed, using sample data:', error);
+      this.exoplanets = this.generateSampleExoplanets();
+    }
+  }
+
+  /**
+   * Generate sample exoplanet data
+   */
+  generateSampleExoplanets() {
+    const missions = ['Kepler', 'K2', 'TESS', 'CoRoT', 'HAT'];
+    const planetTypes = ['Rocky', 'Super-Earth', 'Neptune-like', 'Gas Giant'];
+    const hostStarTypes = ['G', 'K', 'M', 'F'];
+    
+    const sampleData = [];
+    
+    for (let i = 1; i <= 100; i++) {
+      const mission = missions[Math.floor(Math.random() * missions.length)];
+      const planetType = planetTypes[Math.floor(Math.random() * planetTypes.length)];
+      const hostStarType = hostStarTypes[Math.floor(Math.random() * hostStarTypes.length)];
+      
+      // Generate realistic values based on planet type
+      let radius, period, temperature, transitDepth;
+      
+      switch (planetType) {
+        case 'Rocky':
+          radius = 0.5 + Math.random() * 1.5; // 0.5 - 2 Earth radii
+          period = 1 + Math.random() * 100; // 1 - 100 days
+          temperature = 200 + Math.random() * 800; // 200 - 1000 K
+          transitDepth = 0.001 + Math.random() * 0.01; // 0.001 - 0.011%
+          break;
+        case 'Super-Earth':
+          radius = 1.25 + Math.random() * 0.75; // 1.25 - 2 Earth radii
+          period = 5 + Math.random() * 200; // 5 - 205 days
+          temperature = 150 + Math.random() * 600; // 150 - 750 K
+          transitDepth = 0.005 + Math.random() * 0.015; // 0.005 - 0.02%
+          break;
+        case 'Neptune-like':
+          radius = 2 + Math.random() * 4; // 2 - 6 Earth radii
+          period = 10 + Math.random() * 500; // 10 - 510 days
+          temperature = 100 + Math.random() * 400; // 100 - 500 K
+          transitDepth = 0.02 + Math.random() * 0.08; // 0.02 - 0.1%
+          break;
+        case 'Gas Giant':
+          radius = 6 + Math.random() * 15; // 6 - 21 Earth radii
+          period = 50 + Math.random() * 2000; // 50 - 2050 days
+          temperature = 50 + Math.random() * 300; // 50 - 350 K
+          transitDepth = 0.1 + Math.random() * 0.5; // 0.1 - 0.6%
+          break;
+      }
+      
+      const discoveryYear = 1995 + Math.floor(Math.random() * 30); // 1995 - 2024
+      const distance = 10 + Math.random() * 4990; // 10 - 5000 light years
+      const transitDuration = 1 + Math.random() * 10; // 1 - 11 hours
+      
+      sampleData.push({
+        id: `exoplanet-${i}`,
+        name: `${mission}-${i}${String.fromCharCode(97 + Math.floor(Math.random() * 26))}`,
+        host_star: `${mission}-${i}`,
+        discovery_method: 'Transit',
+        discovery_year: discoveryYear,
+        discovery_facility: mission,
+        orbital_period: period,
+        planetary_radius: radius,
+        transit_duration: transitDuration,
+        transit_depth: transitDepth,
+        equilibrium_temperature: temperature,
+        distance: distance,
+        planet_type: planetType,
+        host_star_type: hostStarType,
+        disposition: Math.random() > 0.3 ? 'Confirmed' : 'Candidate',
+        habitable_zone: Math.random() > 0.9 ? 'Yes' : 'No'
+      });
+    }
+    
+    return sampleData;
+  }
+
+  /**
+   * Initialize filter controls
+   */
+  initializeFilters() {
     // Search input
-    if (this.searchInput) {
-      const debouncedSearch = Utils.debounce((e) => {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', Utils.debounce((e) => {
         this.filters.search = e.target.value.toLowerCase();
         this.applyFilters();
-      }, 300);
-      
-      this.searchInput.addEventListener('input', debouncedSearch);
+      }, 300));
     }
 
-    // Filter checkboxes
-    this.filterCheckboxes.forEach(checkbox => {
+    // Mission checkboxes
+    const missionCheckboxes = document.querySelectorAll('input[name="mission"]');
+    missionCheckboxes.forEach(checkbox => {
       checkbox.addEventListener('change', () => {
-        this.updateFiltersFromCheckboxes();
+        this.updateCheckboxFilter('mission');
         this.applyFilters();
       });
     });
 
-    // Sort select
-    if (this.sortSelect) {
-      this.sortSelect.addEventListener('change', (e) => {
-        this.currentSort = e.target.value;
-        this.sortPlanets();
-        this.renderPlanets();
-      });
-    }
-
-    // View toggle buttons
-    this.viewButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        this.currentView = button.dataset.view;
-        this.updateViewButtons();
-        this.renderPlanets();
+    // Size checkboxes
+    const sizeCheckboxes = document.querySelectorAll('input[name="size"]');
+    sizeCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        this.updateCheckboxFilter('size');
+        this.applyFilters();
       });
     });
 
-    // Apply filters button
-    const applyFiltersBtn = Utils.getElementById('apply-filters');
-    if (applyFiltersBtn) {
-      applyFiltersBtn.addEventListener('click', () => {
-        this.updateFiltersFromSliders();
-        this.applyFilters();
-      });
-    }
+    // Range sliders
+    this.initializeRangeSliders();
 
-    // Reset filters button
-    const resetFiltersBtn = Utils.getElementById('filter-reset');
-    if (resetFiltersBtn) {
-      resetFiltersBtn.addEventListener('click', () => {
+    // Reset button
+    const resetButton = document.getElementById('filter-reset');
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
         this.resetFilters();
       });
     }
 
-    // Modal close
-    const modalClose = Utils.getElementById('modal-close');
-    if (modalClose) {
-      modalClose.addEventListener('click', () => {
-        this.closeModal();
+    // Apply filters button
+    const applyButton = document.getElementById('apply-filters');
+    if (applyButton) {
+      applyButton.addEventListener('click', () => {
+        this.applyFilters();
       });
     }
-
-    // Modal backdrop click
-    if (this.planetModal) {
-      const backdrop = this.planetModal.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.addEventListener('click', () => {
-          this.closeModal();
-        });
-      }
-    }
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.planetModal?.classList.contains('active')) {
-        this.closeModal();
-      }
-    });
   }
 
-  setupRangeSliders() {
-    // Year range sliders
-    if (this.rangeSliders.yearMin && this.rangeSliders.yearMax) {
-      this.setupDualRangeSlider('year', 1995, 2025);
-    }
-
-    // Period range sliders
-    if (this.rangeSliders.periodMin && this.rangeSliders.periodMax) {
-      this.setupDualRangeSlider('period', 0, 1000);
-    }
-
-    // Distance range sliders
-    if (this.rangeSliders.distanceMin && this.rangeSliders.distanceMax) {
-      this.setupDualRangeSlider('distance', 0, 5000);
-    }
+  /**
+   * Initialize range sliders
+   */
+  initializeRangeSliders() {
+    // Year range
+    this.initializeRangeSlider('year', 1995, 2025, [1995, 2025]);
+    
+    // Period range
+    this.initializeRangeSlider('period', 0, 1000, [0, 1000]);
+    
+    // Distance range
+    this.initializeRangeSlider('distance', 0, 5000, [0, 5000]);
   }
 
-  setupDualRangeSlider(type, min, max) {
-    const minSlider = this.rangeSliders[`${type}Min`];
-    const maxSlider = this.rangeSliders[`${type}Max`];
-    const minValue = Utils.getElementById(`${type}-min-value`);
-    const maxValue = Utils.getElementById(`${type}-max-value`);
+  /**
+   * Initialize individual range slider
+   */
+  initializeRangeSlider(name, min, max, defaultValues) {
+    const minSlider = document.getElementById(`${name}-min`);
+    const maxSlider = document.getElementById(`${name}-max`);
+    const minValue = document.getElementById(`${name}-min-value`);
+    const maxValue = document.getElementById(`${name}-max-value`);
 
-    if (!minSlider || !maxSlider) return;
+    if (!minSlider || !maxSlider || !minValue || !maxValue) return;
 
     const updateValues = () => {
       let minVal = parseInt(minSlider.value);
       let maxVal = parseInt(maxSlider.value);
 
-      // Ensure min is not greater than max
-      if (minVal > maxVal) {
-        minVal = maxVal;
+      // Ensure min doesn't exceed max
+      if (minVal >= maxVal) {
+        minVal = maxVal - 1;
         minSlider.value = minVal;
       }
 
-      // Update display values
-      if (minValue) {
-        minValue.textContent = type === 'distance' ? minVal : minVal;
-      }
-      if (maxValue) {
-        maxValue.textContent = type === 'distance' ? maxVal : maxVal;
+      // Ensure max doesn't go below min
+      if (maxVal <= minVal) {
+        maxVal = minVal + 1;
+        maxSlider.value = maxVal;
       }
 
-      // Update filters
-      this.filters[`${type}Range`] = [minVal, maxVal];
+      minValue.textContent = minVal;
+      maxValue.textContent = maxVal;
+
+      // Update filter
+      this.filters[`${name}Range`] = [minVal, maxVal];
     };
 
     minSlider.addEventListener('input', updateValues);
     maxSlider.addEventListener('input', updateValues);
-
-    // Initialize values
+    
+    // Set initial values
+    minSlider.value = defaultValues[0];
+    maxSlider.value = defaultValues[1];
     updateValues();
   }
 
-  updateFiltersFromCheckboxes() {
-    // Mission filters
-    const missionCheckboxes = document.querySelectorAll('input[name="mission"]:checked');
-    this.filters.missions = Array.from(missionCheckboxes).map(cb => cb.value);
-
-    // Size filters
-    const sizeCheckboxes = document.querySelectorAll('input[name="size"]:checked');
-    this.filters.sizes = Array.from(sizeCheckboxes).map(cb => cb.value);
+  /**
+   * Update checkbox filter
+   */
+  updateCheckboxFilter(filterName) {
+    const checkboxes = document.querySelectorAll(`input[name="${filterName}"]:checked`);
+    this.filters[filterName] = Array.from(checkboxes).map(cb => cb.value);
   }
 
-  updateFiltersFromSliders() {
-    // Range filters are updated in real-time by setupDualRangeSlider
-    // This method is called when Apply Filters is clicked
+  /**
+   * Reset all filters
+   */
+  resetFilters() {
+    // Reset search
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = '';
+
+    // Reset checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+    });
+
+    // Reset range sliders
+    document.getElementById('year-min').value = 1995;
+    document.getElementById('year-max').value = 2025;
+    document.getElementById('period-min').value = 0;
+    document.getElementById('period-max').value = 1000;
+    document.getElementById('distance-min').value = 0;
+    document.getElementById('distance-max').value = 5000;
+
+    // Reset filter object
+    this.filters = {
+      search: '',
+      mission: [],
+      size: [],
+      yearRange: [1995, 2025],
+      periodRange: [0, 1000],
+      distanceRange: [0, 5000]
+    };
+
+    // Update displays and apply
+    this.initializeRangeSliders();
+    this.applyFilters();
   }
 
+  /**
+   * Apply current filters
+   */
   applyFilters() {
-    this.filteredPlanets = this.exoplanets.filter(planet => {
+    this.filteredExoplanets = this.exoplanets.filter(planet => {
       // Search filter
       if (this.filters.search) {
-        const searchTerm = this.filters.search;
-        const searchableText = `${planet.name} ${planet.hostStar} ${planet.planetType}`.toLowerCase();
-        if (!searchableText.includes(searchTerm)) {
+        const searchTerm = this.filters.search.toLowerCase();
+        if (!planet.name.toLowerCase().includes(searchTerm) &&
+            !planet.host_star.toLowerCase().includes(searchTerm)) {
           return false;
         }
       }
 
       // Mission filter
-      if (this.filters.missions.length > 0) {
-        if (!this.filters.missions.includes(planet.mission)) {
+      if (this.filters.mission.length > 0) {
+        if (!this.filters.mission.includes(planet.discovery_facility)) {
+          return false;
+        }
+      }
+
+      // Size filter
+      if (this.filters.size.length > 0) {
+        const planetSize = this.getPlanetSizeCategory(planet.planetary_radius);
+        if (!this.filters.size.includes(planetSize)) {
           return false;
         }
       }
 
       // Year range filter
-      const [minYear, maxYear] = this.filters.yearRange;
-      if (planet.discoveryYear < minYear || planet.discoveryYear > maxYear) {
+      if (planet.discovery_year < this.filters.yearRange[0] || 
+          planet.discovery_year > this.filters.yearRange[1]) {
         return false;
       }
 
-      // Size filter
-      if (this.filters.sizes.length > 0) {
-        const planetSize = this.getPlanetSize(planet.planetaryRadius);
-        if (!this.filters.sizes.includes(planetSize)) {
-          return false;
-        }
-      }
-
       // Period range filter
-      const [minPeriod, maxPeriod] = this.filters.periodRange;
-      if (planet.orbitalPeriod < minPeriod || planet.orbitalPeriod > maxPeriod) {
+      if (planet.orbital_period < this.filters.periodRange[0] || 
+          planet.orbital_period > this.filters.periodRange[1]) {
         return false;
       }
 
       // Distance range filter
-      const [minDistance, maxDistance] = this.filters.distanceRange;
-      if (planet.distance < minDistance || planet.distance > maxDistance) {
+      if (planet.distance < this.filters.distanceRange[0] || 
+          planet.distance > this.filters.distanceRange[1]) {
         return false;
       }
 
       return true;
     });
 
+    // Sort filtered results
+    this.sortExoplanets();
+
+    // Reset to first page
     this.currentPage = 1;
-    this.sortPlanets();
-    this.renderPlanets();
+
+    // Update UI
     this.updateResultsCount();
-    this.renderPagination();
+    this.renderExoplanets();
+    this.updatePagination();
   }
 
-  getPlanetSize(radius) {
+  /**
+   * Get planet size category
+   */
+  getPlanetSizeCategory(radius) {
     if (radius < 1.25) return 'Small';
-    if (radius <= 2) return 'Medium';
+    if (radius < 2) return 'Medium';
     return 'Large';
   }
 
-  sortPlanets() {
-    this.filteredPlanets.sort((a, b) => {
+  /**
+   * Sort exoplanets
+   */
+  sortExoplanets() {
+    this.filteredExoplanets.sort((a, b) => {
       switch (this.currentSort) {
         case 'name':
           return a.name.localeCompare(b.name);
         case 'year':
-          return b.discoveryYear - a.discoveryYear;
+          return b.discovery_year - a.discovery_year;
         case 'distance':
           return a.distance - b.distance;
         case 'radius':
-          return b.planetaryRadius - a.planetaryRadius;
+          return b.planetary_radius - a.planetary_radius;
         case 'period':
-          return a.orbitalPeriod - b.orbitalPeriod;
+          return a.orbital_period - b.orbital_period;
         default:
           return 0;
       }
     });
   }
 
-  renderPlanets() {
-    if (!this.planetGrid) return;
+  /**
+   * Initialize view controls
+   */
+  initializeViewControls() {
+    // View toggle buttons
+    const viewButtons = document.querySelectorAll('.view-btn');
+    viewButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const view = button.dataset.view;
+        this.setView(view);
+        
+        // Update button states
+        viewButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+
+    // Sort dropdown
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        this.currentSort = e.target.value;
+        this.applyFilters();
+      });
+    }
+  }
+
+  /**
+   * Set view mode
+   */
+  setView(view) {
+    this.currentView = view;
+    const grid = document.getElementById('exoplanet-grid');
+    if (grid) {
+      grid.className = `exoplanet-grid ${view === 'list' ? 'list-view' : ''}`;
+    }
+    this.renderExoplanets();
+  }
+
+  /**
+   * Update results count
+   */
+  updateResultsCount() {
+    const countElement = document.getElementById('results-count');
+    if (countElement) {
+      const total = this.filteredExoplanets.length;
+      const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+      const end = Math.min(start + this.itemsPerPage - 1, total);
+      
+      if (total === 0) {
+        countElement.textContent = 'No exoplanets found';
+      } else {
+        countElement.textContent = `Showing ${start}-${end} of ${total} exoplanets`;
+      }
+    }
+  }
+
+  /**
+   * Render exoplanets
+   */
+  renderExoplanets() {
+    const grid = document.getElementById('exoplanet-grid');
+    if (!grid) return;
 
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    const planetsToShow = this.filteredPlanets.slice(startIndex, endIndex);
+    const pageExoplanets = this.filteredExoplanets.slice(startIndex, endIndex);
 
-    if (planetsToShow.length === 0) {
-      this.planetGrid.innerHTML = `
+    if (pageExoplanets.length === 0) {
+      grid.innerHTML = `
         <div class="no-results">
           <i class="fas fa-search"></i>
           <h3>No exoplanets found</h3>
@@ -323,387 +467,382 @@ class ExplorerManager {
       return;
     }
 
-    this.planetGrid.className = `exoplanet-grid ${this.currentView}-view`;
-    this.planetGrid.innerHTML = planetsToShow.map(planet => 
-      this.createPlanetCard(planet)
-    ).join('');
-
-    // Add click listeners to cards
-    this.planetGrid.querySelectorAll('.planet-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const planetId = card.dataset.planetId;
-        this.showPlanetDetails(planetId);
-      });
-    });
+    grid.innerHTML = pageExoplanets.map(planet => this.createPlanetCard(planet)).join('');
   }
 
+  /**
+   * Create planet card HTML
+   */
   createPlanetCard(planet) {
-    const habitableIcon = planet.habitableZone ? 
-      '<i class="fas fa-leaf habitable-icon" title="In Habitable Zone"></i>' : '';
+    const planetIcon = this.getPlanetIcon(planet.planet_type);
+    const sizeCategory = this.getPlanetSizeCategory(planet.planetary_radius);
     
-    const confirmedBadge = planet.confirmed ? 
-      '<span class="confirmed-badge">Confirmed</span>' : 
-      '<span class="candidate-badge">Candidate</span>';
-
     return `
       <div class="planet-card" data-planet-id="${planet.id}">
         <div class="planet-header">
           <h3 class="planet-name">${planet.name}</h3>
-          ${confirmedBadge}
+          <span class="planet-badge ${planet.disposition.toLowerCase()}">${planet.disposition}</span>
         </div>
         
         <div class="planet-visual">
-          <div class="planet-icon ${planet.planetType.toLowerCase().replace(' ', '-')}">
-            <i class="fas fa-circle"></i>
+          <div class="planet-icon ${planet.planet_type.toLowerCase().replace('-', '')}">
+            <i class="${planetIcon}"></i>
           </div>
-          ${habitableIcon}
+          ${planet.habitable_zone === 'Yes' ? '<i class="fas fa-leaf habitable-icon" title="In Habitable Zone"></i>' : ''}
         </div>
         
         <div class="planet-info">
-          <div class="info-item">
-            <span class="info-label">Host Star</span>
-            <span class="info-value">${planet.hostStar}</span>
+          <div class="info-row">
+            <span class="info-label">Host Star:</span>
+            <span class="info-value">${planet.host_star}</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">Discovery Year</span>
-            <span class="info-value">${planet.discoveryYear}</span>
+          <div class="info-row">
+            <span class="info-label">Discovery Year:</span>
+            <span class="info-value">${planet.discovery_year}</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">Mission</span>
-            <span class="info-value">${planet.mission}</span>
+          <div class="info-row">
+            <span class="info-label">Mission:</span>
+            <span class="info-value">${planet.discovery_facility}</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">Distance</span>
-            <span class="info-value">${planet.distance} ly</span>
+          <div class="info-row">
+            <span class="info-label">Radius:</span>
+            <span class="info-value">${planet.planetary_radius.toFixed(2)} R⊕</span>
           </div>
-        </div>
-        
-        <div class="planet-metrics">
-          <div class="metric">
-            <span class="metric-label">Radius</span>
-            <span class="metric-value">${planet.planetaryRadius} R⊕</span>
+          <div class="info-row">
+            <span class="info-label">Period:</span>
+            <span class="info-value">${planet.orbital_period.toFixed(1)} days</span>
           </div>
-          <div class="metric">
-            <span class="metric-label">Period</span>
-            <span class="metric-value">${planet.orbitalPeriod.toFixed(1)} days</span>
-          </div>
-          <div class="metric">
-            <span class="metric-label">Temperature</span>
-            <span class="metric-value">${planet.equilibriumTemperature} K</span>
+          <div class="info-row">
+            <span class="info-label">Distance:</span>
+            <span class="info-value">${planet.distance.toFixed(0)} ly</span>
           </div>
         </div>
         
-        <button class="btn btn-outline view-details-btn">
-          <i class="fas fa-eye"></i>
-          View Details
-        </button>
+        <div class="planet-footer">
+          <span class="planet-type">${planet.planet_type}</span>
+          <button class="btn btn-outline btn-small view-details" data-planet-id="${planet.id}">
+            View Details
+          </button>
+        </div>
       </div>
     `;
   }
 
-  showPlanetDetails(planetId) {
-    const planet = this.exoplanets.find(p => p.id === planetId);
-    if (!planet || !this.planetModal) return;
-
-    // Update modal content
-    this.updateModalContent(planet);
-    
-    // Show modal
-    this.planetModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Create comparison chart
-    setTimeout(() => {
-      this.createComparisonChart(planet);
-    }, 100);
-  }
-
-  updateModalContent(planet) {
-    // Update planet name
-    const planetName = Utils.getElementById('modal-planet-name');
-    if (planetName) planetName.textContent = planet.name;
-
-    // Update basic info
-    const hostStar = Utils.getElementById('modal-host-star');
-    if (hostStar) hostStar.textContent = planet.hostStar;
-
-    const discoveryYear = Utils.getElementById('modal-discovery-year');
-    if (discoveryYear) discoveryYear.textContent = planet.discoveryYear;
-
-    const mission = Utils.getElementById('modal-mission');
-    if (mission) mission.textContent = planet.mission;
-
-    // Update metrics
-    const metrics = {
-      'modal-radius': `${planet.planetaryRadius} R⊕`,
-      'modal-period': `${planet.orbitalPeriod.toFixed(1)} days`,
-      'modal-duration': `${planet.transitDuration.toFixed(1)} hours`,
-      'modal-depth': `${planet.transitDepth.toFixed(4)}%`,
-      'modal-temperature': `${planet.equilibriumTemperature} K`,
-      'modal-distance': `${planet.distance} light years`
-    };
-
-    Object.entries(metrics).forEach(([id, value]) => {
-      const element = Utils.getElementById(id);
-      if (element) element.textContent = value;
-    });
-
-    // Update planet image/visualization
-    const planetImage = Utils.getElementById('planet-image');
-    if (planetImage) {
-      planetImage.innerHTML = `
-        <div class="planet-visualization ${planet.planetType.toLowerCase().replace(' ', '-')}">
-          <div class="planet-sphere">
-            <div class="planet-surface"></div>
-            <div class="planet-atmosphere"></div>
-          </div>
-          <div class="planet-info-overlay">
-            <span class="planet-type">${planet.planetType}</span>
-            ${planet.habitableZone ? '<span class="habitable-indicator">Habitable Zone</span>' : ''}
-          </div>
-        </div>
-      `;
+  /**
+   * Get planet icon based on type
+   */
+  getPlanetIcon(planetType) {
+    switch (planetType) {
+      case 'Rocky':
+        return 'fas fa-mountain';
+      case 'Super-Earth':
+        return 'fas fa-globe';
+      case 'Neptune-like':
+        return 'fas fa-cloud';
+      case 'Gas Giant':
+        return 'fas fa-circle';
+      default:
+        return 'fas fa-circle';
     }
   }
 
-  createComparisonChart(planet) {
-    const canvas = Utils.getElementById('comparison-chart');
-    if (!canvas || !window.chartManager) return;
+  /**
+   * Initialize pagination
+   */
+  initializePagination() {
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
 
-    const comparisonData = [
-      { name: 'Earth', radius: 1.0, period: 365.25, color: '#10b981' },
-      { name: 'Mars', radius: 0.53, period: 687, color: '#ef4444' },
-      { name: 'Jupiter', radius: 11.2, period: 4333, color: '#f59e0b' },
-      { name: planet.name, radius: planet.planetaryRadius, period: planet.orbitalPeriod, color: '#6366f1' }
-    ];
-
-    const data = {
-      datasets: [{
-        label: 'Planetary Comparison',
-        data: comparisonData.map(p => ({
-          x: p.period,
-          y: p.radius,
-          label: p.name,
-          backgroundColor: p.color,
-          borderColor: p.color
-        })),
-        backgroundColor: comparisonData.map(p => p.color),
-        borderColor: comparisonData.map(p => p.color),
-        borderWidth: 2,
-        pointRadius: 8,
-        pointHoverRadius: 10
-      }]
-    };
-
-    const options = {
-      scales: {
-        x: {
-          type: 'logarithmic',
-          title: {
-            display: true,
-            text: 'Orbital Period (days)'
-          }
-        },
-        y: {
-          type: 'logarithmic',
-          title: {
-            display: true,
-            text: 'Planetary Radius (Earth Radii)'
-          }
-        }
-      },
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          callbacks: {
-            title: (context) => context[0].raw.label,
-            label: (context) => [
-              `Radius: ${context.parsed.y.toFixed(2)} R⊕`,
-              `Period: ${context.parsed.x.toFixed(1)} days`
-            ]
-          }
-        }
-      }
-    };
-
-    window.chartManager.createChart('comparison-chart', 'scatter', data, options);
-  }
-
-  closeModal() {
-    if (!this.planetModal) return;
-    
-    this.planetModal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Destroy comparison chart
-    window.chartManager?.destroyChart('comparison-chart');
-  }
-
-  updateViewButtons() {
-    this.viewButtons.forEach(button => {
-      button.classList.toggle('active', button.dataset.view === this.currentView);
-    });
-  }
-
-  updateResultsCount() {
-    if (!this.resultsCount) return;
-    
-    const count = this.filteredPlanets.length;
-    const total = this.exoplanets.length;
-    
-    this.resultsCount.textContent = count === total ? 
-      `Showing all ${count} exoplanets` : 
-      `Showing ${count} of ${total} exoplanets`;
-  }
-
-  renderPagination() {
-    if (!this.pagination) return;
-
-    const totalPages = Math.ceil(this.filteredPlanets.length / this.itemsPerPage);
-    
-    if (totalPages <= 1) {
-      this.pagination.style.display = 'none';
-      return;
-    }
-
-    this.pagination.style.display = 'flex';
-
-    const prevBtn = Utils.getElementById('prev-btn');
-    const nextBtn = Utils.getElementById('next-btn');
-    const numbersContainer = Utils.getElementById('pagination-numbers');
-
-    // Update prev/next buttons
     if (prevBtn) {
-      prevBtn.disabled = this.currentPage === 1;
-      prevBtn.onclick = () => this.goToPage(this.currentPage - 1);
+      prevBtn.addEventListener('click', () => {
+        if (this.currentPage > 1) {
+          this.currentPage--;
+          this.renderExoplanets();
+          this.updatePagination();
+        }
+      });
     }
 
     if (nextBtn) {
-      nextBtn.disabled = this.currentPage === totalPages;
-      nextBtn.onclick = () => this.goToPage(this.currentPage + 1);
+      nextBtn.addEventListener('click', () => {
+        const totalPages = Math.ceil(this.filteredExoplanets.length / this.itemsPerPage);
+        if (this.currentPage < totalPages) {
+          this.currentPage++;
+          this.renderExoplanets();
+          this.updatePagination();
+        }
+      });
+    }
+  }
+
+  /**
+   * Update pagination controls
+   */
+  updatePagination() {
+    const totalPages = Math.ceil(this.filteredExoplanets.length / this.itemsPerPage);
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const numbersContainer = document.getElementById('pagination-numbers');
+
+    // Update button states
+    if (prevBtn) {
+      prevBtn.disabled = this.currentPage <= 1;
+    }
+    if (nextBtn) {
+      nextBtn.disabled = this.currentPage >= totalPages;
     }
 
     // Update page numbers
     if (numbersContainer) {
-      const pageNumbers = this.generatePageNumbers(this.currentPage, totalPages);
-      numbersContainer.innerHTML = pageNumbers.map(page => {
-        if (page === '...') {
-          return '<span class="pagination-ellipsis">...</span>';
-        }
-        
-        return `
-          <button class="pagination-number ${page === this.currentPage ? 'active' : ''}" 
-                  onclick="window.explorerManager.goToPage(${page})">
-            ${page}
-          </button>
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      // Adjust start page if we're near the end
+      if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      let numbersHTML = '';
+      
+      for (let i = startPage; i <= endPage; i++) {
+        numbersHTML += `
+          <button class="pagination-number ${i === this.currentPage ? 'active' : ''}" 
+                  data-page="${i}">${i}</button>
         `;
-      }).join('');
+      }
+
+      numbersContainer.innerHTML = numbersHTML;
+
+      // Add click listeners to page numbers
+      numbersContainer.querySelectorAll('.pagination-number').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          this.currentPage = parseInt(e.target.dataset.page);
+          this.renderExoplanets();
+          this.updatePagination();
+        });
+      });
     }
   }
 
-  generatePageNumbers(current, total) {
-    const pages = [];
-    
-    if (total <= 7) {
-      // Show all pages if total is small
-      for (let i = 1; i <= total; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Show first page
-      pages.push(1);
-      
-      if (current > 4) {
-        pages.push('...');
-      }
-      
-      // Show pages around current
-      const start = Math.max(2, current - 1);
-      const end = Math.min(total - 1, current + 1);
-      
-      for (let i = start; i <= end; i++) {
-        pages.push(i);
-      }
-      
-      if (current < total - 3) {
-        pages.push('...');
-      }
-      
-      // Show last page
-      if (total > 1) {
-        pages.push(total);
-      }
+  /**
+   * Initialize modal
+   */
+  initializeModal() {
+    const modal = document.getElementById('planet-modal');
+    const closeBtn = document.getElementById('modal-close');
+    const backdrop = modal?.querySelector('.modal-backdrop');
+
+    // Close modal handlers
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.closeModal());
     }
-    
-    return pages;
-  }
-
-  goToPage(page) {
-    const totalPages = Math.ceil(this.filteredPlanets.length / this.itemsPerPage);
-    
-    if (page < 1 || page > totalPages) return;
-    
-    this.currentPage = page;
-    this.renderPlanets();
-    this.renderPagination();
-    
-    // Scroll to top of results
-    if (this.planetGrid) {
-      this.planetGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (backdrop) {
+      backdrop.addEventListener('click', () => this.closeModal());
     }
-  }
 
-  resetFilters() {
-    // Reset filter values
-    this.filters = {
-      search: '',
-      missions: [],
-      yearRange: [1995, 2025],
-      sizes: [],
-      periodRange: [0, 1000],
-      distanceRange: [0, 5000]
-    };
-
-    // Reset UI elements
-    if (this.searchInput) this.searchInput.value = '';
-    
-    this.filterCheckboxes.forEach(checkbox => {
-      checkbox.checked = false;
+    // ESC key handler
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        this.closeModal();
+      }
     });
 
-    // Reset range sliders
-    Object.entries(this.rangeSliders).forEach(([key, slider]) => {
-      if (slider) {
-        if (key.includes('year')) {
-          slider.value = key.includes('Min') ? 1995 : 2025;
-        } else if (key.includes('period')) {
-          slider.value = key.includes('Min') ? 0 : 1000;
-        } else if (key.includes('distance')) {
-          slider.value = key.includes('Min') ? 0 : 5000;
+    // Planet card click handlers (delegated)
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('view-details') || 
+          e.target.closest('.planet-card')) {
+        const planetId = e.target.dataset.planetId || 
+                        e.target.closest('.planet-card')?.dataset.planetId;
+        if (planetId) {
+          this.showPlanetDetails(planetId);
         }
       }
     });
+  }
 
-    // Update range displays
-    this.setupRangeSliders();
-    
-    // Apply filters
-    this.applyFilters();
-    
-    window.exoPlanetApp?.toastManager?.show('Filters reset', 'info');
+  /**
+   * Show planet details modal
+   */
+  showPlanetDetails(planetId) {
+    const planet = this.exoplanets.find(p => p.id === planetId);
+    if (!planet) return;
+
+    // Update modal content
+    this.updateModalContent(planet);
+
+    // Show modal
+    const modal = document.getElementById('planet-modal');
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  /**
+   * Update modal content
+   */
+  updateModalContent(planet) {
+    // Basic info
+    const nameElement = document.getElementById('modal-planet-name');
+    if (nameElement) nameElement.textContent = planet.name;
+
+    const hostStarElement = document.getElementById('modal-host-star');
+    if (hostStarElement) hostStarElement.textContent = planet.host_star;
+
+    const yearElement = document.getElementById('modal-discovery-year');
+    if (yearElement) yearElement.textContent = planet.discovery_year;
+
+    const missionElement = document.getElementById('modal-mission');
+    if (missionElement) missionElement.textContent = planet.discovery_facility;
+
+    // Metrics
+    const radiusElement = document.getElementById('modal-radius');
+    if (radiusElement) radiusElement.textContent = `${planet.planetary_radius.toFixed(2)} R⊕`;
+
+    const periodElement = document.getElementById('modal-period');
+    if (periodElement) periodElement.textContent = `${planet.orbital_period.toFixed(1)} days`;
+
+    const durationElement = document.getElementById('modal-duration');
+    if (durationElement) durationElement.textContent = `${planet.transit_duration.toFixed(1)} hours`;
+
+    const depthElement = document.getElementById('modal-depth');
+    if (depthElement) depthElement.textContent = `${(planet.transit_depth * 100).toFixed(3)}%`;
+
+    const temperatureElement = document.getElementById('modal-temperature');
+    if (temperatureElement) temperatureElement.textContent = `${planet.equilibrium_temperature.toFixed(0)} K`;
+
+    const distanceElement = document.getElementById('modal-distance');
+    if (distanceElement) distanceElement.textContent = `${planet.distance.toFixed(0)} light years`;
+
+    // Planet visualization
+    this.updatePlanetVisualization(planet);
+
+    // Comparison chart
+    this.updateComparisonChart(planet);
+  }
+
+  /**
+   * Update planet visualization
+   */
+  updatePlanetVisualization(planet) {
+    const planetImage = document.getElementById('planet-image');
+    if (!planetImage) return;
+
+    const planetIcon = this.getPlanetIcon(planet.planet_type);
+    const planetClass = planet.planet_type.toLowerCase().replace('-', '');
+
+    planetImage.innerHTML = `
+      <div class="planet-visual-large ${planetClass}">
+        <i class="${planetIcon}"></i>
+        ${planet.habitable_zone === 'Yes' ? '<div class="habitable-indicator">Habitable Zone</div>' : ''}
+      </div>
+    `;
+  }
+
+  /**
+   * Update comparison chart
+   */
+  updateComparisonChart(planet) {
+    const canvas = document.getElementById('comparison-chart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Destroy existing chart
+    if (this.comparisonChart) {
+      this.comparisonChart.destroy();
+    }
+
+    this.comparisonChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['Radius', 'Orbital Period', 'Temperature', 'Distance'],
+        datasets: [
+          {
+            label: 'Earth',
+            data: [1, 365, 288, 0], // Normalized Earth values
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 2
+          },
+          {
+            label: planet.name,
+            data: [
+              planet.planetary_radius,
+              Math.min(planet.orbital_period / 365, 10), // Normalize to years, cap at 10
+              planet.equilibrium_temperature / 288, // Relative to Earth
+              Math.min(planet.distance / 1000, 5) // Normalize to thousands of ly, cap at 5
+            ],
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 10,
+            ticks: { color: '#94a3b8' },
+            grid: { color: 'rgba(148, 163, 184, 0.1)' },
+            angleLines: { color: 'rgba(148, 163, 184, 0.1)' }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { color: '#e2e8f0' }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Close modal
+   */
+  closeModal() {
+    const modal = document.getElementById('planet-modal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  /**
+   * Show error message
+   */
+  showError(message) {
+    const grid = document.getElementById('exoplanet-grid');
+    if (grid) {
+      grid.innerHTML = `
+        <div class="error-message">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Error</h3>
+          <p>${message}</p>
+          <button class="btn btn-primary" onclick="location.reload()">
+            Retry
+          </button>
+        </div>
+      `;
+    }
   }
 }
+
+// Global explorer instance
+const explorer = new ExplorerManager();
 
 // Initialize explorer when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.pathname.includes('explorer.html')) {
-    window.explorerManager = new ExplorerManager();
+    explorer.init();
   }
 });
 
-// Export for testing
+// Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { ExplorerManager };
+  module.exports = { ExplorerManager, explorer };
 }

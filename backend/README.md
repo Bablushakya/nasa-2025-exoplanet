@@ -1,75 +1,42 @@
 # ExoPlanet AI - Backend API
 
-A production-ready REST API for exoplanet detection and analysis using FastAPI, PostgreSQL, and machine learning.
+A REST API for exoplanet detection and analysis using FastAPI and machine learning.
 
 ## 🚀 Features
 
-- **FastAPI Framework**: Modern, fast web framework with automatic API documentation
-- **Machine Learning**: Scikit-learn and TensorFlow integration for exoplanet detection
-- **Database**: PostgreSQL for production, SQLite for development
-- **Authentication**: JWT-based authentication with API key support
+- **FastAPI Framework**: Modern web framework with automatic API documentation
+- **Machine Learning**: AI-powered exoplanet classification
+- **Database**: SQLite for easy setup
 - **Data Validation**: Pydantic models for request/response validation
-- **Database Migrations**: Alembic for database schema management
-- **Async Support**: Full async/await support for high performance
+- **Async Support**: High-performance async operations
 - **API Documentation**: Automatic OpenAPI/Swagger documentation
-- **Error Handling**: Comprehensive error handling and logging
-- **CORS Support**: Cross-origin resource sharing for frontend integration
+- **CORS Support**: Frontend integration enabled
 
 ## 📋 Requirements
 
 - Python 3.8+
-- PostgreSQL 12+ (for production)
-- Redis (optional, for caching)
 
-## 🛠 Installation
-
-### 1. Clone and Setup
+## 🛠 Installation & Running
 
 ```bash
-# Navigate to backend directory
+# 1. Navigate to backend directory
 cd backend
 
-# Create virtual environment
+# 2. Create virtual environment
 python -m venv venv
 
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
+# 3. Activate virtual environment
+venv\Scripts\activate          # Windows
+# source venv/bin/activate     # macOS/Linux
 
-# Install dependencies
+# 4. Install dependencies
 pip install -r requirements.txt
-```
 
-### 2. Environment Configuration
-
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit .env file with your configuration
-# For development, the default SQLite configuration works out of the box
-```
-
-### 3. Database Setup
-
-```bash
-# Initialize database (creates tables and sample data)
+# 5. Initialize database
 python scripts/init_db.py
 
-# Or use Alembic for migrations
-alembic upgrade head
-```
-
-### 4. Run the Application
-
-```bash
-# Development server with auto-reload
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-# Production server
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+# 6. Run the server
+python run.py
 ```
 
 ## 📚 API Documentation

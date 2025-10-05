@@ -1289,6 +1289,7 @@ hboard Specific Styles */
   background: var(--glass-border);
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
   margin: var(--spacing-sm) 0;
 }
 
