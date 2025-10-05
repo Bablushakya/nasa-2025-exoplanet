@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <radialGradient id="starGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:0.8" />
+    </radialGradient>
+    <radialGradient id="planetGradient" cx="30%" cy="30%" r="80%">
+      <stop offset="0%" style="stop-color:#4169E1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1E3A8A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F172A;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background space -->
+  <rect width="32" height="32" fill="#0F0F23"/>
+  
+  <!-- Stars -->
+  <circle cx="4" cy="6" r="0.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="28" cy="4" r="0.3" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="26" cy="28" r="0.4" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="6" cy="26" r="0.3" fill="#FFFFFF" opacity="0.5"/>
+  <circle cx="14" cy="3" r="0.2" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="30" cy="14" r="0.3" fill="#FFFFFF" opacity="0.7"/>
+  
+  <!-- Central star -->
+  <circle cx="12" cy="16" r="4" fill="url(#starGradient)"/>
+  <circle cx="12" cy="16" r="2.5" fill="#FFD700" opacity="0.9"/>
+  
+  <!-- Exoplanet -->
+  <circle cx="22" cy="16" r="3" fill="url(#planetGradient)"/>
+  
+  <!-- Orbital path -->
+  <circle cx="12" cy="16" r="10" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.3" stroke-dasharray="1,1"/>
+  
+  <!-- Small moon -->
+  <circle cx="24" cy="14" r="0.8" fill="#8B9DC3" opacity="0.8"/>
+</svg>

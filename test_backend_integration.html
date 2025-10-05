@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Backend Integration Test - ExoPlanet AI</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/icons/favicon.svg">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .test-section h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .endpoint {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .endpoint.error {
+            border-left-color: #f44336;
+        }
+        
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        
+        .status.loading {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .response-data {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .test-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .summary {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+        
+        .icon {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 ExoPlanet AI Backend Integration Test</h1>
+        
+        <div class="test-section">
+            <h2><span class="icon">🔗</span> Backend Connection</h2>
+            <p><strong>Backend URL:</strong> <code>https://bablushakya-nasa-2025-backend.onrender.com</code></p>
+            <button class="test-button" onclick="testAllEndpoints()">🧪 Test All Endpoints</button>
+            <button class="test-button" onclick="clearResults()">🗑️ Clear Results</button>
+        </div>
+        
+        <div class="test-section">
+            <h2><span class="icon">🏥</span> Health Check</h2>
+            <div id="health-test" class="endpoint">
+                <div class="endpoint-url">GET /health</div>
+                <div class="status loading">Ready to test</div>
+                <div class="response-data" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2><span class="icon">🌍</span> Solar System API</h2>
+            <div id="solar-system-test" class="endpoint">
+                <div class="endpoint-url">GET /api/v1/solar-system</div>
+                <div class="status loading">Ready to test</div>
+                <div class="response-data" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2><span class="icon">🔍</span> Exoplanet Detection API</h2>
+            <div id="detection-test" class="endpoint">
+                <div class="endpoint-url">POST /api/v1/exoplanet/detect</div>
+                <div class="status loading">Ready to test</div>
+                <div class="response-data" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2><span class="icon">📊</span> Analysis API</h2>
+            <div id="analysis-test" class="endpoint">
+                <div class="endpoint-url">POST /api/v1/exoplanet/analyze</div>
+                <div class="status loading">Ready to test</div>
+                <div class="response-data" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div class="summary" id="test-summary">
+            <p>Click "Test All Endpoints" to verify backend integration</p>
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://bablushakya-nasa-2025-backend.onrender.com';
+        let testResults = {};
+
+        async function testEndpoint(endpointId, method, url, data = null) {
+            const endpointDiv = document.getElementById(endpointId);
+            const statusDiv = endpointDiv.querySelector('.status');
+            const responseDiv = endpointDiv.querySelector('.response-data');
+            
+            // Update status to loading
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = 'Testing...';
+            responseDiv.style.display = 'none';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+                
+                const startTime = Date.now();
+                const response = await fetch(url, options);
+                const endTime = Date.now();
+                const responseTime = endTime - startTime;
+                
+                const responseData = await response.json();
+                
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = `✅ Success (${responseTime}ms)`;
+                    endpointDiv.className = 'endpoint';
+                    testResults[endpointId] = true;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                responseDiv.textContent = JSON.stringify(responseData, null, 2);
+                responseDiv.style.display = 'block';
+                
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = `❌ Failed: ${error.message}`;
+                endpointDiv.className = 'endpoint error';
+                testResults[endpointId] = false;
+                
+                responseDiv.textContent = `Error: ${error.message}`;
+                responseDiv.style.display = 'block';
+            }
+        }
+
+        async function testAllEndpoints() {
+            testResults = {};
+            
+            // Test health endpoint
+            await testEndpoint('health-test', 'GET', `${BACKEND_URL}/health`);
+            
+            // Test solar system endpoint
+            await testEndpoint('solar-system-test', 'GET', `${BACKEND_URL}/api/v1/solar-system`);
+            
+            // Test detection endpoint with sample data
+            const sampleDetectionData = {
+                period: 365.25,
+                duration: 13.0,
+                depth: 0.01,
+                radius_ratio: 0.1
+            };
+            await testEndpoint('detection-test', 'POST', `${BACKEND_URL}/api/v1/exoplanet/detect`, sampleDetectionData);
+            
+            // Test analysis endpoint with sample data
+            const sampleAnalysisData = {
+                period: 365.25,
+                duration: 13.0,
+                depth: 0.01,
+                radius_ratio: 0.1,
+                star_radius: 1.0,
+                star_mass: 1.0
+            };
+            await testEndpoint('analysis-test', 'POST', `${BACKEND_URL}/api/v1/exoplanet/analyze`, sampleAnalysisData);
+            
+            // Update summary
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summaryDiv = document.getElementById('test-summary');
+            const totalTests = Object.keys(testResults).length;
+            const passedTests = Object.values(testResults).filter(result => result === true).length;
+            const failedTests = totalTests - passedTests;
+            
+            if (totalTests === 0) {
+                summaryDiv.innerHTML = '<p>Click "Test All Endpoints" to verify backend integration</p>';
+                return;
+            }
+            
+            const successRate = Math.round((passedTests / totalTests) * 100);
+            
+            let summaryHTML = `
+                <h3>🧪 Test Results Summary</h3>
+                <p><strong>Total Tests:</strong> ${totalTests}</p>
+                <p><strong>Passed:</strong> <span style="color: #4CAF50;">${passedTests}</span></p>
+                <p><strong>Failed:</strong> <span style="color: #f44336;">${failedTests}</span></p>
+                <p><strong>Success Rate:</strong> ${successRate}%</p>
+            `;
+            
+            if (successRate === 100) {
+                summaryHTML += '<p style="color: #4CAF50; font-size: 1.3rem;">🎉 All tests passed! Backend integration is working perfectly!</p>';
+            } else if (successRate >= 75) {
+                summaryHTML += '<p style="color: #ff9800; font-size: 1.3rem;">⚠️ Most tests passed. Some features may have issues.</p>';
+            } else {
+                summaryHTML += '<p style="color: #f44336; font-size: 1.3rem;">❌ Multiple tests failed. Backend integration needs attention.</p>';
+            }
+            
+            summaryDiv.innerHTML = summaryHTML;
+        }
+
+        function clearResults() {
+            testResults = {};
+            
+            // Reset all endpoint displays
+            const endpoints = ['health-test', 'solar-system-test', 'detection-test', 'analysis-test'];
+            endpoints.forEach(endpointId => {
+                const endpointDiv = document.getElementById(endpointId);
+                const statusDiv = endpointDiv.querySelector('.status');
+                const responseDiv = endpointDiv.querySelector('.response-data');
+                
+                statusDiv.className = 'status loading';
+                statusDiv.textContent = 'Ready to test';
+                endpointDiv.className = 'endpoint';
+                responseDiv.style.display = 'none';
+            });
+            
+            updateSummary();
+        }
+
+        // Auto-test on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🚀 Starting automatic backend integration test...');
+                testAllEndpoints();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>""

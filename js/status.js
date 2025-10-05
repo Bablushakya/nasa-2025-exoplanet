@@ -172,7 +172,7 @@ class StatusIndicator {
 
     try {
       const startTime = Date.now();
-      const response = await fetch('http://localhost:8000/health', {
+      const response = await fetch('https://bablushakya-nasa-2025-backend.onrender.com/health', {
         method: 'GET',
         timeout: 5000,
         signal: AbortSignal.timeout(5000)

@@ -41,7 +41,7 @@ const CONFIG = {
         NAME: 'ExoPlanet AI Enhanced',
         VERSION: '2.0.0',
         DESCRIPTION: 'NASA & Gemini AI Integration Platform',
-        BACKEND_URL: 'http://localhost:8001',
+        BACKEND_URL: 'https://bablushakya-nasa-2025-backend.onrender.com',
         FRONTEND_URL: 'http://localhost:3000'
     },
     

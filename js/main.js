@@ -1141,10 +1141,46 @@ window.initializeApiPage = function() {
   }
 };
 
+// Test backend connection
+async function testBackendConnection() {
+  try {
+    console.log('🔗 Testing backend connection...');
+    const response = await fetch(`${CONFIG.APP.BACKEND_URL}/health`);
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Backend connected successfully:', data);
+      
+      // Show success notification if toast manager is available
+      if (window.exoPlanetApp && window.exoPlanetApp.toastManager) {
+        window.exoPlanetApp.toastManager.show('🚀 Backend connected successfully!', 'success', 3000);
+      }
+      
+      return true;
+    } else {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('❌ Backend connection failed:', error);
+    
+    // Show error notification if toast manager is available
+    if (window.exoPlanetApp && window.exoPlanetApp.toastManager) {
+      window.exoPlanetApp.toastManager.show('⚠️ Backend connection failed. Some features may not work.', 'error', 5000);
+    }
+    
+    return false;
+  }
+}
+
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.exoPlanetApp = new ExoPlanetApp();
   window.exoPlanetApp.handleDOMContentLoaded();
+  
+  // Test backend connection after a short delay
+  setTimeout(() => {
+    testBackendConnection();
+  }, 2000);
 });
 
 // Handle page visibility changes

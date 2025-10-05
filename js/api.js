@@ -5,7 +5,7 @@
  */
 class ApiService {
     constructor() {
-        this.baseURL = (window.CONFIG?.APP?.BACKEND_URL || 'http://localhost:8000') + '/api/v1';
+        this.baseURL = (window.CONFIG?.APP?.BACKEND_URL || 'https://bablushakya-nasa-2025-backend.onrender.com') + '/api/v1';
         this.timeout = 30000;
         this.defaultHeaders = {
             'Content-Type': 'application/json',

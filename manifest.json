@@ -1,0 +1,34 @@
+{
+  "name": "ExoPlanet AI - Exoplanet Detection & Analysis",
+  "short_name": "ExoPlanet AI",
+  "description": "Advanced AI-powered exoplanet detection and analysis platform using NASA data and machine learning",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0F23",
+  "theme_color": "#6366F1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/images/icons/favicon-16x16.svg",
+      "sizes": "16x16",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icons/favicon-32x32.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["science", "education", "astronomy"],
+  "lang": "en",
+  "scope": "/",
+  "screenshots": []
+}
